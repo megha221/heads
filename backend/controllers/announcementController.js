@@ -17,10 +17,10 @@ export const getAnnouncementById = (req, res) => {
 };
 
 export const createAnnouncement = (req, res) => {
-  const { title, description, image, category } = req.body;
+  const { title, description, image, category, google_scholar_url, linkedin_url, youtube_url } = req.body;
   db.query(
-    "INSERT INTO announcements (title, description, image, category) VALUES (?, ?, ?, ?)",
-    [title, description, image || null, category || "General"],
+    "INSERT INTO announcements (title, description, image, category, google_scholar_url, linkedin_url, youtube_url) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    [title, description, image || null, category || "General", google_scholar_url || null, linkedin_url || null, youtube_url || null],
     (err, result) => {
       if (err) return res.status(500).send(err);
       res.status(201).json({ id: result.insertId, message: "Announcement created successfully" });
@@ -30,10 +30,10 @@ export const createAnnouncement = (req, res) => {
 
 export const updateAnnouncement = (req, res) => {
   const { id } = req.params;
-  const { title, description, image, category } = req.body;
+  const { title, description, image, category, google_scholar_url, linkedin_url, youtube_url } = req.body;
   db.query(
-    "UPDATE announcements SET title = ?, description = ?, image = ?, category = ? WHERE id = ?",
-    [title, description, image || null, category || "General", id],
+    "UPDATE announcements SET title = ?, description = ?, image = ?, category = ?, google_scholar_url = ?, linkedin_url = ?, youtube_url = ? WHERE id = ?",
+    [title, description, image || null, category || "General", google_scholar_url || null, linkedin_url || null, youtube_url || null, id],
     (err, result) => {
       if (err) return res.status(500).send(err);
       if (result.affectedRows === 0) return res.status(404).json({ message: "Announcement not found" });

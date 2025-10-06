@@ -246,7 +246,7 @@ export default function Home() {
                 ))}
               </div> */}
               <div className="px-6 py-3 rounded-lg font-medium text-center" style={{ backgroundColor: '#2c5530', color: '#ffffff', fontSize: '1.1rem' }}>
-                This project was supported by an award from Neuromatch, Inc. as part of the Generative AI for Mental Health Research Accelerator, funded by Wellcome Trust Limited.
+                Supported by an award from Neuromatch, Inc. as part of the Generative AI for Mental Health Research Accelerator, funded by Wellcome Trust Limited.
               </div>
           </motion.div>
 
@@ -271,7 +271,7 @@ export default function Home() {
           >
               A collaborative research initiative developing culturally sensitive AI-assisted depression screening tools 
               with Lived Experience Expert (LEE) involvement, ensuring human oversight and cultural sensitivity 
-              in mental health diagnosis across multiple languages and communities.
+              in depression diagnosis across multiple languages and communities.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -422,12 +422,12 @@ export default function Home() {
             {[
               {
                 title: "Multilingual AI Support",
-                description: "Accessible mental health tools, fostering resilience & encouraging individuals to embrace their mental health journey through culturally sensitive AI assistance.",
+                description: "Accessible, culturally and linguistically sensitive mental health tools - assisting healthcare workers identify depression.",
                 
               },
               {
                 title: "Research Collaboration",
-                description: "Essential support and resources, fostering mental wellness and connection for researchers navigating complex mental health challenges.",
+                description: "Intersection of medicine and computer science. Working towards pragmatic, clinically relevant AI solutions in mental health.",
                
               },
               {
@@ -604,7 +604,7 @@ export default function Home() {
                 <h3 className="text-xl font-bold mb-4" style={{ color: '#000000' }}>Lived Experience Advisory Panel (LEAP)</h3>
                 <p className="leading-relaxed" style={{ color: '#000000' }}>
                   Join our 10-15 member advisory panel with diverse backgrounds. We'll coordinate through 
-                  WhatsApp/Google groups with BNBR (Be Nice and Be Respectful) guidelines. Your participation 
+                  WhatsApp/Google groups. Your participation 
                   is completely voluntary, and you can withdraw at any time.
                 </p>
               </div>
@@ -1061,7 +1061,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
-              <h3 className="text-2xl font-bold mb-4" style={{ color: '#000000' }}>HEADS Project</h3>
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#000000' }}>Project Heads</h3>
               <p className="mb-6 max-w-md" style={{ color: '#000000' }}>
                 Human-in-the-loop Evaluation of Assisted Depression Screening - 
                 Advancing mental health diagnosis through AI while ensuring human oversight.
@@ -1122,16 +1122,16 @@ export default function Home() {
               <h4 className="text-lg font-semibold mb-4" style={{ color: '#000000' }}>Contact</h4>
               <ul className="space-y-2" style={{ color: '#000000' }}>
                 <li>project.heads.ai@gmail.com</li>
-                <li>Mental Health Research</li>
+                {/* <li>Mental Health Research</li>
                 <li>Multilingual AI Systems</li>
-                <li>Human-in-the-Loop AI</li>
+                <li>Human-in-the-Loop AI</li> */}
               </ul>
             </div>
           </div>
           
           <div className="border-t mt-8 pt-8 text-center" style={{ borderColor: 'rgba(0, 0, 0, 0.2)' }}>
             <p style={{ color: '#000000' }}>
-              © 2025 HEADS Project. All rights reserved.
+              © 2025  Project Heads. All rights reserved.
             </p>
           </div>
         </div>

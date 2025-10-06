@@ -1257,8 +1257,74 @@ export default function Announcements() {
                     {announcement.description}
                   </p>
                   
+                  {/* Social Links */}
+                  {(announcement.google_scholar_url || announcement.linkedin_url || announcement.youtube_url) && (
+                    <div className="mb-4">
+                      <h4 className="text-sm font-semibold mb-2" style={{ color: '#000000' }}>Connect & Learn More:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {announcement.google_scholar_url && (
+                          <motion.a
+                            href={announcement.google_scholar_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
+                            style={{ 
+                              backgroundColor: '#4285f4', 
+                              color: '#ffffff' 
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5s-5.548 1.749-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/>
+                            </svg>
+                            Google Scholar
+                          </motion.a>
+                        )}
+                        {announcement.linkedin_url && (
+                          <motion.a
+                            href={announcement.linkedin_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
+                            style={{ 
+                              backgroundColor: '#0077b5', 
+                              color: '#ffffff' 
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                            LinkedIn
+                          </motion.a>
+                        )}
+                        {announcement.youtube_url && (
+                          <motion.a
+                            href={announcement.youtube_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
+                            style={{ 
+                              backgroundColor: '#ff0000', 
+                              color: '#ffffff' 
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                            YouTube
+                          </motion.a>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
                   {/* Action Button */}
-                  <motion.button
+                  {/* <motion.button
                     className="w-full font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105"
                     style={{ 
                       backgroundColor: '#2c5530', 
@@ -1268,7 +1334,7 @@ export default function Announcements() {
                     whileTap={{ scale: 0.98 }}
                   >
                     Read More
-                  </motion.button>
+                  </motion.button> */}
                 </div>
 
                 {/* Decorative Elements */}

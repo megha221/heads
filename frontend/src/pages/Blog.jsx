@@ -25,27 +25,27 @@ export default function Blog() {
         console.error("Error fetching blogs:", error);
         // Fallback data for demo
         setBlogs([
-          {
-            id: 1,
-            title: "Welcome to DCNet 2025",
-            content: "We are thrilled to welcome you to the premier conference on Data Communication and Networking. This year promises to be our biggest event yet with cutting-edge research presentations, hands-on workshops, and networking opportunities.",
-            created_at: "2025-01-15T10:00:00Z",
-            image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=250&fit=crop&crop=center"
-          },
-          {
-            id: 2,
-            title: "Networking Best Practices",
-            content: "Effective networking is crucial for career growth in the tech industry. Here are some tips to make the most of your conference experience: 1) Prepare your elevator pitch, 2) Bring plenty of business cards, 3) Attend social events, 4) Follow up with new connections.",
-            created_at: "2025-01-10T14:30:00Z",
-            image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=400&h=250&fit=crop&crop=center"
-          },
-          {
-            id: 3,
-            title: "Future of Data Communication",
-            content: "The landscape of data communication is rapidly evolving with the advent of 5G, edge computing, and quantum networking. This blog explores the emerging trends and technologies that will shape the future of our field.",
-            created_at: "2025-01-05T09:15:00Z",
-            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center"
-          }
+          // {
+          //   id: 1,
+          //   title: "Welcome to DCNet 2025",
+          //   content: "We are thrilled to welcome you to the premier conference on Data Communication and Networking. This year promises to be our biggest event yet with cutting-edge research presentations, hands-on workshops, and networking opportunities.",
+          //   created_at: "2025-01-15T10:00:00Z",
+          //   image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=250&fit=crop&crop=center"
+          // },
+          // {
+          //   id: 2,
+          //   title: "Networking Best Practices",
+          //   content: "Effective networking is crucial for career growth in the tech industry. Here are some tips to make the most of your conference experience: 1) Prepare your elevator pitch, 2) Bring plenty of business cards, 3) Attend social events, 4) Follow up with new connections.",
+          //   created_at: "2025-01-10T14:30:00Z",
+          //   image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=400&h=250&fit=crop&crop=center"
+          // },
+          // {
+          //   id: 3,
+          //   title: "Future of Data Communication",
+          //   content: "The landscape of data communication is rapidly evolving with the advent of 5G, edge computing, and quantum networking. This blog explores the emerging trends and technologies that will shape the future of our field.",
+          //   created_at: "2025-01-05T09:15:00Z",
+          //   image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop&crop=center"
+          // }
         ]);
       } finally {
         setLoading(false);
