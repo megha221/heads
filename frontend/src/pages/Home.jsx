@@ -734,16 +734,20 @@ export default function Home() {
 
           {/* Together We Build Better Care Banner */}
           <motion.div
-            className="bg-white rounded-3xl p-12 text-center border border-gray-200 shadow-lg"
+            className="rounded-3xl p-12 text-center shadow-lg"
+            style={{ 
+              backgroundColor: '#2c5530',
+              borderColor: '#2c5530'
+            }}
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl sm:text-5xl font-bold mb-6" style={{ color: '#000000' }}>
+            <h2 className="text-4xl sm:text-5xl font-bold mb-6" style={{ color: '#ffffff' }}>
               Together, We Build Better Care
             </h2>
-            <div className="text-xl max-w-4xl mx-auto" style={{ color: '#000000' }}>
+            <div className="text-xl max-w-4xl mx-auto" style={{ color: '#ffffff' }}>
               <span className="font-semibold">Your lived experience</span>
               <span className="mx-4">+</span>
               <span className="font-semibold">Our AI research</span>
@@ -788,7 +792,8 @@ export default function Home() {
                 location: "Bengaluru",
                 role: "Clinical Expertise & Mental Health Research",
                 description: "Leading mental health institute providing clinical expertise, patient care protocols, and research validation for depression screening methodologies.",
-                color: "from-blue-600 to-blue-800"
+                color: "from-blue-600 to-blue-800",
+                website: "https://www.nimhans.ac.in/"
               },
               {
                 name: "IIT Kharagpur",
@@ -796,7 +801,8 @@ export default function Home() {
                 location: "Kharagpur",
                 role: "AI Technology Development",
                 description: "Pioneering AI research and development, focusing on multilingual speech recognition, natural language processing, and interpretable machine learning systems.",
-                color: "from-purple-600 to-purple-800"
+                color: "from-purple-600 to-purple-800",
+                website: "https://www.iitkgp.ac.in/"
               },
               {
                 name: "LGBRIMH",
@@ -804,12 +810,16 @@ export default function Home() {
                 location: "Tezpur",
                 role: "Regional Mental Health & Cultural Context",
                 description: "Regional mental health expertise ensuring cultural sensitivity, local language support, and community-centered approach to mental health care.",
-                color: "from-green-600 to-green-800"
+                color: "from-green-600 to-green-800",
+                website: "https://www.lgbrimh.gov.in/"
               }
             ].map((institution, index) => (
-              <motion.div
+              <motion.a
                 key={index}
-                className="bg-white rounded-2xl p-8 border border-gray-200 hover:shadow-lg transition-all duration-300"
+                href={institution.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white rounded-2xl p-8 border border-gray-200 hover:shadow-lg transition-all duration-300 cursor-pointer block"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.2, duration: 0.6 }}
@@ -830,7 +840,7 @@ export default function Home() {
                 <p className="leading-relaxed text-center" style={{ color: '#000000' }}>
                   {institution.description}
                 </p>
-              </motion.div>
+              </motion.a>
             ))}
           </div>
         </div>
@@ -1057,15 +1067,40 @@ export default function Home() {
                 Advancing mental health diagnosis through AI while ensuring human oversight.
               </p>
               <div className="flex space-x-4">
-                {["Twitter", "LinkedIn", "Facebook", "Instagram"].map((social, index) => (
-                  <motion.div
-                    key={social}
-                    className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-all duration-300 cursor-pointer"
-                    whileHover={{ scale: 1.1 }}
+                {[
+                  {
+                    name: "Twitter",
+                    url: "https://x.com/heads_ai?s=11&t=joDfQ-9ZvciagpqxVH-Ofw",
+                    icon: (
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                      </svg>
+                    )
+                  },
+                  {
+                    name: "LinkedIn",
+                    url: "#", // Add LinkedIn URL when available
+                    icon: (
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                      </svg>
+                    )
+                  }
+                ].map((social, index) => (
+                  <motion.a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer"
+                    style={{ backgroundColor: '#2c5530' }}
+                    whileHover={{ scale: 1.1, backgroundColor: '#1e3a21' }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    <span className="text-sm font-medium" style={{ color: '#000000' }}>{social[0]}</span>
-                  </motion.div>
+                    <span style={{ color: '#ffffff' }}>
+                      {social.icon}
+                    </span>
+                  </motion.a>
                 ))}
               </div>
             </div>
@@ -1086,7 +1121,7 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4" style={{ color: '#000000' }}>Contact</h4>
               <ul className="space-y-2" style={{ color: '#000000' }}>
-                <li>heads.project@research.org</li>
+                <li>project.heads.ai@gmail.com</li>
                 <li>Mental Health Research</li>
                 <li>Multilingual AI Systems</li>
                 <li>Human-in-the-Loop AI</li>
