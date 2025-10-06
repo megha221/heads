@@ -48,6 +48,14 @@ export default function Announcements() {
     });
   };
 
+  // Function to highlight "Onsite" text with green background
+  const highlightOnsite = (text) => {
+    if (!text) return text;
+    return text.replace(/\bOnsite\b/gi, (match) => 
+      `<span style="background-color: #2c5530; color: #ffffff; padding: 2px 6px; border-radius: 4px; font-weight: 600;">${match}</span>`
+    );
+  };
+
   // Helper function to get events by day (already sorted by backend)
   const getEventsByDay = (day) => {
     const filteredEvents = events.filter(event => event.day_number === day);
@@ -624,9 +632,8 @@ export default function Announcements() {
                       <p 
                         className="text-sm leading-relaxed"
                         style={{ color: '#000000' }}
-                      >
-                        {item.description}
-                      </p>
+                        dangerouslySetInnerHTML={{ __html: highlightOnsite(item.description) }}
+                      />
                     )}
                   </div>
                 </div>

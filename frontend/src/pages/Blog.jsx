@@ -388,6 +388,22 @@ export default function Blog() {
           >
             Contribute Post
           </motion.button>
+          
+          {/* Contribution Message */}
+          <motion.div
+            className="mt-4 px-6 py-3 rounded-lg text-center"
+            style={{ 
+              backgroundColor: '#2c5530', 
+              color: '#ffffff'
+            }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+          >
+            <p className="text-sm">
+              If you are interested in contributing to the blog or sharing your expertise, please write an email to <strong>project.heads.ai@gmail.com</strong>
+            </p>
+          </motion.div>
         </div>
       </motion.div>
 
