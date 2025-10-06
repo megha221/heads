@@ -191,22 +191,37 @@ export default function Home() {
         />
       </div>
 
-      {/* Hero Section with Beige Background */}
+      {/* Hero Section with Abstract Gradient Background */}
       <div 
         className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-32"
         style={{ 
           backgroundColor: '#f5f5dc',
-          backgroundImage: 'url("/src/assets/deep.webp")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundBlendMode: 'multiply'
+          background: `
+            linear-gradient(135deg, rgba(44, 85, 48, 0.3) 0%, rgba(245, 245, 220, 0.6) 25%, rgba(44, 85, 48, 0.2) 50%, rgba(245, 245, 220, 0.7) 75%, rgba(44, 85, 48, 0.25) 100%),
+            linear-gradient(45deg, transparent 20%, rgba(44, 85, 48, 0.15) 20%, rgba(44, 85, 48, 0.15) 80%, transparent 80%),
+            linear-gradient(-45deg, transparent 20%, rgba(44, 85, 48, 0.1) 20%, rgba(44, 85, 48, 0.1) 80%, transparent 80%),
+            radial-gradient(circle at 20% 80%, rgba(44, 85, 48, 0.2) 0%, transparent 60%),
+            radial-gradient(circle at 80% 20%, rgba(44, 85, 48, 0.18) 0%, transparent 60%),
+            radial-gradient(circle at 40% 40%, rgba(44, 85, 48, 0.15) 0%, transparent 60%)
+          `
         }}
       >
-        {/* Overlay for better text readability */}
+        {/* Abstract Lines Overlay */}
+        <div 
+          className="absolute inset-0 opacity-60"
+          style={{
+            background: `
+              linear-gradient(90deg, transparent 0%, rgba(44, 85, 48, 0.25) 15%, transparent 30%, rgba(44, 85, 48, 0.2) 45%, transparent 60%, rgba(44, 85, 48, 0.22) 75%, transparent 90%, rgba(44, 85, 48, 0.18) 100%),
+              linear-gradient(0deg, transparent 0%, rgba(44, 85, 48, 0.15) 20%, transparent 40%, rgba(44, 85, 48, 0.18) 60%, transparent 80%, rgba(44, 85, 48, 0.12) 100%)
+            `,
+            backgroundSize: '180px 180px, 120px 120px'
+          }}
+        ></div>
+        
+        {/* Subtle overlay for better text readability */}
         <div 
           className="absolute inset-0"
-          style={{ backgroundColor: 'rgba(245, 245, 220, 0.6)' }}
+          style={{ backgroundColor: 'rgba(245, 245, 220, 0.2)' }}
         ></div>
       {/* Main Content */}
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center">
@@ -802,9 +817,9 @@ export default function Home() {
                 whileHover={{ y: -5 }}
               >
                 <div className="text-center mb-6">
-                  <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${institution.color} flex items-center justify-center`}>
+                  {/* <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${institution.color} flex items-center justify-center`}>
                     <span className="text-white text-xl font-bold">{institution.name.charAt(0)}</span>
-                  </div>
+                  </div> */}
                   <h3 className="text-2xl font-bold mb-2" style={{ color: '#000000' }}>{institution.name}</h3>
                   <p className="mb-2" style={{ color: '#000000' }}>{institution.fullName}</p>
                   <p className="text-sm mb-4" style={{ color: '#000000' }}>{institution.location}</p>
