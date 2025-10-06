@@ -59,8 +59,9 @@ export default function Announcements() {
   // Helper function to get day title
   const getDayTitle = (day) => {
     const titles = {
-      'day1': 'Day 1 - Data Privacy, Security and Ethical AI in Mental Health',
-      'day2': 'Day 2 - Advanced AI Ethics and Implementation'
+      'day1': 'Day 1 - Data Privacy, Security, Governance and Sovereignty',
+      'day2': 'Day 2 - Methodological Anglocentrism & Cultural Loss',
+      'day3': 'Day 3 - Representation, Fairness & Safety'
     };
     return titles[day] || `Day ${day}`;
   };
@@ -325,23 +326,131 @@ export default function Announcements() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            HEADS Project Announcements
+            Responsible AI for Psychiatry in India
           </motion.h1>
           <motion.p
-            className="text-xl sm:text-2xl max-w-3xl mx-auto"
+            className="text-xl sm:text-2xl max-w-4xl mx-auto mb-4"
             style={{ color: '#000000' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            Stay updated with the latest research progress, LEE engagement updates, and project milestones.
+            Navigating Ethical, Legal and Cultural Frontiers
           </motion.p>
+          <motion.div
+            className="max-w-6xl mx-auto mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            {/* Event Details Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {/* Date Card */}
+              <motion.div
+                className="bg-white rounded-xl p-6 shadow-lg border h-full flex flex-col"
+                style={{ borderColor: 'rgba(0, 0, 0, 0.1)' }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.6 }}
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0" style={{ backgroundColor: '#2c5530' }}>
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold" style={{ color: '#000000' }}>Event Dates</h3>
+                </div>
+                <div className="flex-grow">
+                  <p className="text-lg font-semibold mb-2" style={{ color: '#2c5530' }}>17th - 19th October 2025</p>
+                  <p className="text-sm" style={{ color: '#666666' }}>3-Day Workshop</p>
+                </div>
+              </motion.div>
+
+              {/* Venue Card */}
+              <motion.div
+                className="bg-white rounded-xl p-6 shadow-lg border h-full flex flex-col"
+                style={{ borderColor: 'rgba(0, 0, 0, 0.1)' }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.6 }}
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0" style={{ backgroundColor: '#2c5530' }}>
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold" style={{ color: '#000000' }}>Venue</h3>
+                </div>
+                <div className="flex-grow">
+                  <p className="text-sm leading-relaxed" style={{ color: '#000000' }}>
+                    Virtual Knowledge Network<br />
+                    3rd Floor, Female CAM<br />
+                    NIMHANS Campus, Bengaluru
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Mode Card */}
+              <motion.div
+                className="bg-white rounded-xl p-6 shadow-lg border h-full flex flex-col"
+                style={{ borderColor: 'rgba(0, 0, 0, 0.1)' }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, duration: 0.6 }}
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mr-4 flex-shrink-0" style={{ backgroundColor: '#2c5530' }}>
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold" style={{ color: '#000000' }}>Mode</h3>
+                </div>
+                <div className="flex-grow">
+                  <p className="text-lg font-semibold mb-2" style={{ color: '#2c5530' }}>Hybrid</p>
+                  <p className="text-sm" style={{ color: '#666666' }}>Zoom link available</p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Organizers Section */}
+           
+
+            {/* Funding Support */}
+            <motion.div
+              className="bg-gradient-to-r rounded-xl p-6 shadow-lg border text-center"
+              style={{ 
+                background: 'linear-gradient(135deg, #2c5530 0%, #4a7c59 100%)',
+                borderColor: 'rgba(0, 0, 0, 0.1)' 
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2, duration: 0.6 }}
+            >
+              <div className="flex items-center justify-center mb-3">
+                <svg className="w-6 h-6 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                </svg>
+                <h3 className="text-lg font-bold text-white">Funding Support</h3>
+              </div>
+              <p className="text-white text-sm leading-relaxed">
+                This event is supported by an award from <strong>Neuromatch, Inc.</strong> as part of the 
+                <strong> Generative AI for Mental Health Research Accelerator</strong>, funded by <strong>Wellcome Trust Limited</strong>.
+              </p>
+            </motion.div>
+          </motion.div>
         </div>
       </motion.div>
 
       {/* Schedule Section - APPROACH 1: TABS */}
       <motion.div
-        className="py-16"
+        // className="py-16"
         style={{ backgroundColor: '#f5f5dc' }}
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -384,6 +493,19 @@ export default function Announcements() {
                   }}
                 >
                   Day 2
+                </button>
+                <button
+                  onClick={() => setActiveDay('day3')}
+                  className={`px-6 py-2 rounded-md font-semibold transition-all duration-200 ${
+                    activeDay === 'day3' 
+                      ? 'text-white' 
+                      : 'text-gray-600 hover:text-black'
+                  }`}
+                  style={{ 
+                    backgroundColor: activeDay === 'day3' ? '#2c5530' : 'transparent'
+                  }}
+                >
+                  Day 3
                 </button>
                 <button
                   onClick={() => setActiveDay('combined')}
@@ -524,6 +646,119 @@ export default function Announcements() {
                 </h3>
               </div>
               {getEventsByDay('day2').map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="rounded-lg p-6"
+                  style={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                    borderColor: 'rgba(0, 0, 0, 0.2)',
+                    border: '1px solid'
+                  }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                  whileHover={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    transition: { duration: 0.2 }
+                  }}
+                >
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    {/* Time and Duration */}
+                    <div className="flex-shrink-0">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div 
+                          className="px-3 py-1 rounded-full text-sm font-semibold"
+                          style={{ 
+                            backgroundColor: '#2c5530', 
+                            color: '#ffffff' 
+                          }}
+                        >
+                          {item.time_slot}
+                        </div>
+                        <div 
+                          className="px-3 py-1 rounded-full text-sm"
+                          style={{ 
+                            backgroundColor: 'rgba(0, 0, 0, 0.2)', 
+                            color: '#000000' 
+                          }}
+                        >
+                          {item.duration}
+                        </div>
+                      </div>
+                      <div 
+                        className="text-lg font-bold"
+                        style={{ color: '#000000' }}
+                      >
+                        {item.type}
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1">
+                      {item.category && (
+                        <div 
+                          className="text-sm font-medium mb-2"
+                          style={{ color: '#2c5530' }}
+                        >
+                          {item.category}
+                        </div>
+                      )}
+                      {item.title && (
+                        <h3 
+                          className="text-lg font-semibold mb-2"
+                          style={{ color: '#000000' }}
+                        >
+                          {item.title}
+                        </h3>
+                      )}
+                      {item.speaker && (
+                        <div className="mb-2">
+                          <span 
+                            className="text-sm font-medium"
+                            style={{ color: '#000000' }}
+                          >
+                            Speaker: 
+                          </span>
+                          <span 
+                            className="text-sm ml-1"
+                            style={{ color: '#000000' }}
+                          >
+                            {item.speaker}
+                          </span>
+                          {item.location && (
+                            <span 
+                              className="text-sm ml-2"
+                              style={{ color: '#000000' }}
+                            >
+                              ({item.location})
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      {item.description && (
+                        <p 
+                          className="text-sm leading-relaxed"
+                          style={{ color: '#000000' }}
+                        >
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+
+          {/* Day 3 Data */}
+          {activeDay === 'day3' && (
+            <div className="space-y-4">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold mb-2" style={{ color: '#000000' }}>
+                  {getDayTitle('day3')}
+                </h3>
+              </div>
+              {getEventsByDay('day3').map((item, index) => (
                 <motion.div
                   key={index}
                   className="rounded-lg p-6"
@@ -795,6 +1030,117 @@ export default function Announcements() {
                             {item.type}
                           </div>
                         </div>
+                        <div className="flex-1">
+                          {item.category && (
+                            <div 
+                              className="text-sm font-medium mb-2"
+                              style={{ color: '#2c5530' }}
+                            >
+                              {item.category}
+                            </div>
+                          )}
+                          {item.title && (
+                            <h3 
+                              className="text-lg font-semibold mb-2"
+                              style={{ color: '#000000' }}
+                            >
+                              {item.title}
+                            </h3>
+                          )}
+                          {item.speaker && (
+                            <div className="mb-2">
+                              <span 
+                                className="text-sm font-medium"
+                                style={{ color: '#000000' }}
+                              >
+                                Speaker: 
+                              </span>
+                              <span 
+                                className="text-sm ml-1"
+                                style={{ color: '#000000' }}
+                              >
+                                {item.speaker}
+                              </span>
+                              {item.location && (
+                                <span 
+                                  className="text-sm ml-2"
+                                  style={{ color: '#000000' }}
+                                >
+                                  ({item.location})
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          {item.description && (
+                            <p 
+                              className="text-sm leading-relaxed"
+                              style={{ color: '#000000' }}
+                            >
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Day 3 */}
+              <div>
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold mb-2" style={{ color: '#000000' }}>
+                    {getDayTitle('day3')}
+                  </h3>
+                </div>
+                <div className="space-y-4">
+                  {getEventsByDay('day3').map((item, index) => (
+                    <motion.div
+                      key={`day3-${index}`}
+                      className="rounded-lg p-6"
+                      style={{ 
+                        backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                        borderColor: 'rgba(0, 0, 0, 0.2)',
+                        border: '1px solid'
+                      }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                      whileHover={{ 
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        transition: { duration: 0.2 }
+                      }}
+                    >
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                        <div className="flex-shrink-0">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div 
+                              className="px-3 py-1 rounded-full text-sm font-semibold"
+                              style={{ 
+                                backgroundColor: '#2c5530', 
+                                color: '#ffffff' 
+                              }}
+                            >
+                              {item.time_slot}
+                            </div>
+                            <div 
+                              className="px-3 py-1 rounded-full text-sm"
+                              style={{ 
+                                backgroundColor: 'rgba(0, 0, 0, 0.2)', 
+                                color: '#000000' 
+                              }}
+                            >
+                              {item.duration}
+                            </div>
+                          </div>
+                          <div 
+                            className="text-lg font-bold"
+                            style={{ color: '#000000' }}
+                          >
+                            {item.type}
+                          </div>
+                        </div>
+
                         <div className="flex-1">
                           {item.category && (
                             <div 

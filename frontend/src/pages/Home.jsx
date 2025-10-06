@@ -213,7 +213,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto">
             
             {/* Trusted Patients Badge */}
-        <motion.div
+        {/* <motion.div
               className="flex items-center justify-center space-x-3 mb-8"
               initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -231,7 +231,7 @@ export default function Home() {
                 ))}
               </div>
               <span className="text-sm font-medium" style={{ color: '#000000' }}>500+ Research Participants</span>
-          </motion.div>
+          </motion.div> */}
 
           {/* Main Title */}
           <motion.h1

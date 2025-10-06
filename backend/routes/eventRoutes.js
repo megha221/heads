@@ -5,7 +5,8 @@ import {
   getEventById,
   createEvent,
   updateEvent,
-  deleteEvent
+  deleteEvent,
+  bulkInsertEvents
 } from '../controllers/eventController.js';
 
 const router = express.Router();
@@ -27,5 +28,8 @@ router.put('/:id', updateEvent);
 
 // DELETE /api/events/:id - Delete event
 router.delete('/:id', deleteEvent);
+
+// POST /api/events/bulk-insert - Bulk insert new events (temporary endpoint)
+router.post('/bulk-insert', bulkInsertEvents);
 
 export default router;
