@@ -67,7 +67,7 @@ export const speakersData = [
   },
   {
     speaker: "Dr. Aseem Srivastava",
-    speaker_title: "Assistant Professor",
+    // speaker_title: "Assistant Professor",
     // speaker_affiliation: "NIMHANS, Bengaluru",
     speaker_bio: "Aseem Srivastava is a Postdoctoral Researcher at MBZUAI, UAE.His research spans applied computational social science, psycholinguistics, and sociolinguistics, with a focus on digital mental health applications, conversational AI systems, and cultural dynamics in LLMs. He has published in premier venues including EMNLP, WWW, KDD, and ICWSM, with notable work on counseling dialogue generation, mental health knowledge frameworks, and AI-driven therapeutic applications.",
     speaker_photo: "/speakers/sachin-baliga.jpg", // Local photo path
@@ -77,7 +77,7 @@ export const speakersData = [
   },
   {
     speaker: "Mr Vamshi Krishna Bonagiri",
-    speaker_title: "Professor of Psychiatry",
+    // speaker_title: "Professor of Psychiatry",
     // speaker_affiliation: "NIMHANS, Bengaluru",
     speaker_bio: "Vamshi Krishna Bonagiri is a PhD student in Machine Learning at the Mohamed bin Zayed University of Artificial Intelligence (MBZUAI), Abu Dhabi. He recently interned at the Center for Human-Compatible AI (CHAI), UC Berkeley. His research focuses on AI Safety, particularly robustness, interpretability, and AI evaluations, with an aim to make AI systems reliable and socially impactful. He has published in venues such as ACM TALLIP and is actively engaged in collaborations at the intersection of AI and society.",
     speaker_photo: "/speakers/sanjeev-jain.jpg", // Local photo path
