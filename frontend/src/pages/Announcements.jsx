@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { speakersData } from "../data/speakers.js";
 
 export default function Announcements() {
-  const [announcements, setAnnouncements] = useState([]);
+  // Use speaker data from external file - easy to modify
+  const [speakers] = useState(speakersData);
+
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,30 +18,25 @@ export default function Announcements() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchEvents = async () => {
       try {
-        // Fetch both announcements and events
-        const [announcementsResponse, eventsResponse] = await Promise.all([
-          axios.get("http://localhost:3001/api/announcements"),
-          axios.get("http://localhost:3001/api/events")
-        ]);
-        
-        setAnnouncements(announcementsResponse.data);
+        // Fetch only events data
+        const eventsResponse = await axios.get("http://localhost:3001/api/events");
         setEvents(eventsResponse.data);
         console.log('Events loaded:', eventsResponse.data);
         console.log('Events count:', eventsResponse.data.length);
+        console.log('Speakers loaded directly from component:', speakers.length);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching events:", error);
         // Show empty state if no data
-        setAnnouncements([]);
         setEvents([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    fetchEvents();
+  }, [speakers.length]);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -208,7 +206,7 @@ export default function Announcements() {
           transition={{ duration: 0.5 }}
         >
             <div className="w-16 h-16 border-4 border-transparent border-t-current rounded-full animate-spin mx-auto mb-4" style={{ borderTopColor: '#000000' }}></div>
-            <p className="text-lg" style={{ color: '#000000' }}>Loading announcements...</p>
+            <p className="text-lg" style={{ color: '#000000' }}>Loading speakers...</p>
         </motion.div>
         </div>
       </div>
@@ -1206,17 +1204,31 @@ export default function Announcements() {
         </div>
       </motion.div>
 
-      {/* Announcements Grid */}
+      {/* Speakers Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ color: '#000000' }}>
+            Our Distinguished Speakers
+          </h2>
+          <p className="text-lg max-w-3xl mx-auto" style={{ color: '#000000' }}>
+            Meet the experts leading the conversation on responsible AI in mental healthcare
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {announcements.map((announcement, index) => (
+          {speakers.map((speaker, index) => (
             <motion.div
-              key={announcement.id}
+              key={speaker.speaker}
               variants={cardVariants}
               whileHover={{ 
                 y: -5,
@@ -1224,50 +1236,51 @@ export default function Announcements() {
               }}
               className="group"
             >
-              <div className="rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderColor: 'rgba(0, 0, 0, 0.2)' }}>
-                {/* Card Header with Image */}
-                <div className="relative h-48 overflow-hidden">
+              <div className="rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden" style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', borderColor: 'rgba(0, 0, 0, 0.2)' }}>
+                {/* Speaker Photo */}
+                <div className="relative h-64 overflow-hidden">
                   <img 
-                    src={announcement.image || "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=250&fit=crop&crop=center"} 
-                    alt={announcement.title}
+                    src={speaker.speaker_photo || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=300&fit=crop&crop=face"} 
+                    alt={speaker.speaker}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute top-4 right-4">
-                    <motion.div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: '#000000' }}
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  </div>
                   <div className="absolute bottom-4 left-4 right-4">
-                    <span className="text-sm font-medium" style={{ color: '#000000' }}>
-                      {formatDate(announcement.created_at)}
-                    </span>
-                    <h3 className="text-xl font-bold transition-colors duration-200 mt-1" style={{ color: '#000000' }}>
-                      {announcement.title}
+                    <h3 className="text-xl font-bold transition-colors duration-200" style={{ color: '#ffffff' }}>
+                      {speaker.speaker}
                     </h3>
+                    {speaker.speaker_title && (
+                      <p className="text-sm font-medium mt-1" style={{ color: '#ffffff' }}>
+                        {speaker.speaker_title}
+                      </p>
+                    )}
+                    {speaker.speaker_affiliation && (
+                      <p className="text-sm mt-1" style={{ color: '#ffffff' }}>
+                        {speaker.speaker_affiliation}
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                {/* Card Content */}
+                {/* Speaker Bio */}
                 <div className="p-6">
-                  <p className="leading-relaxed mb-4" style={{ color: '#000000' }}>
-                    {announcement.description}
-                  </p>
+                  {speaker.speaker_bio && (
+                    <p className="text-sm leading-relaxed mb-4" style={{ color: '#000000' }}>
+                      {speaker.speaker_bio}
+                    </p>
+                  )}
                   
                   {/* Social Links */}
-                  {(announcement.google_scholar_url || announcement.linkedin_url || announcement.youtube_url) && (
+                  {(speaker.speaker_google_scholar || speaker.speaker_linkedin || speaker.speaker_twitter || speaker.speaker_website) && (
                     <div className="mb-4">
-                      <h4 className="text-sm font-semibold mb-2" style={{ color: '#000000' }}>Connect & Learn More:</h4>
+                      <h4 className="text-xs font-semibold mb-2" style={{ color: '#000000' }}>Connect:</h4>
                       <div className="flex flex-wrap gap-2">
-                        {announcement.google_scholar_url && (
+                        {speaker.speaker_google_scholar && (
                           <motion.a
-                            href={announcement.google_scholar_url}
+                            href={speaker.speaker_google_scholar}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
+                            className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium transition-all duration-200 hover:scale-105"
                             style={{ 
                               backgroundColor: '#4285f4', 
                               color: '#ffffff' 
@@ -1275,18 +1288,18 @@ export default function Announcements() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5s-5.548 1.749-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/>
                             </svg>
-                            Google Scholar
+                            Scholar
                           </motion.a>
                         )}
-                        {announcement.linkedin_url && (
+                        {speaker.speaker_linkedin && (
                           <motion.a
-                            href={announcement.linkedin_url}
+                            href={speaker.speaker_linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
+                            className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium transition-all duration-200 hover:scale-105"
                             style={{ 
                               backgroundColor: '#0077b5', 
                               color: '#ffffff' 
@@ -1294,54 +1307,53 @@ export default function Announcements() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                             </svg>
                             LinkedIn
                           </motion.a>
                         )}
-                        {announcement.youtube_url && (
+                        {speaker.speaker_twitter && (
                           <motion.a
-                            href={announcement.youtube_url}
+                            href={speaker.speaker_twitter}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105"
+                            className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium transition-all duration-200 hover:scale-105"
                             style={{ 
-                              backgroundColor: '#ff0000', 
+                              backgroundColor: '#1da1f2', 
                               color: '#ffffff' 
                             }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
                             </svg>
-                            YouTube
+                            Twitter
+                          </motion.a>
+                        )}
+                        {speaker.speaker_website && (
+                          <motion.a
+                            href={speaker.speaker_website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium transition-all duration-200 hover:scale-105"
+                    style={{ 
+                      backgroundColor: '#2c5530', 
+                      color: '#ffffff' 
+                    }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                  </svg>
+                            Website
                           </motion.a>
                         )}
                       </div>
                     </div>
                   )}
-                  
-                  {/* Action Button */}
-                  {/* <motion.button
-                    className="w-full font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105"
-                    style={{ 
-                      backgroundColor: '#2c5530', 
-                      color: '#ffffff' 
-                    }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Read More
-                  </motion.button> */}
-                </div>
-
-                {/* Decorative Elements */}
-                <div className="absolute top-4 right-4 opacity-10">
-                  <svg className="w-8 h-8" style={{ color: '#000000' }} fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                  </svg>
                 </div>
               </div>
             </motion.div>
@@ -1349,7 +1361,7 @@ export default function Announcements() {
         </motion.div>
 
         {/* Empty State */}
-        {announcements.length === 0 && (
+        {speakers.length === 0 && (
           <motion.div
             className="text-center py-16"
             initial={{ opacity: 0 }}
@@ -1358,12 +1370,12 @@ export default function Announcements() {
           >
             <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
               <svg className="w-12 h-12" style={{ color: '#000000' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold mb-4" style={{ color: '#000000' }}>No Announcements Yet</h3>
+            <h3 className="text-2xl font-bold mb-4" style={{ color: '#000000' }}>Speakers Coming Soon</h3>
             <p className="max-w-md mx-auto" style={{ color: '#000000' }}>
-              Check back soon for the latest HEADS project updates and research milestones.
+              We're assembling an incredible lineup of experts for the HEADS project workshop.
             </p>
           </motion.div>
         )}

@@ -66,15 +66,27 @@ export const getEventById = (req, res) => {
 
 // Create new event
 export const createEvent = (req, res) => {
-  const { day_number, time_slot, duration, type, category, title, speaker, location, description } = req.body;
+  const { 
+    day_number, time_slot, duration, type, category, title, speaker, location, description,
+    speaker_bio, speaker_photo, speaker_affiliation, speaker_title,
+    speaker_google_scholar, speaker_linkedin, speaker_twitter, speaker_website
+  } = req.body;
 
   if (!day_number || !time_slot || !duration || !type || !title) {
     return res.status(400).json({ message: "Day number, time slot, duration, type, and title are required" });
   }
 
   db.query(
-    "INSERT INTO events (day_number, time_slot, duration, type, category, title, speaker, location, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [day_number, time_slot, duration, type, category || null, title, speaker || null, location || null, description || null],
+    `INSERT INTO events (
+      day_number, time_slot, duration, type, category, title, speaker, location, description,
+      speaker_bio, speaker_photo, speaker_affiliation, speaker_title,
+      speaker_google_scholar, speaker_linkedin, speaker_twitter, speaker_website
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      day_number, time_slot, duration, type, category || null, title, speaker || null, location || null, description || null,
+      speaker_bio || null, speaker_photo || null, speaker_affiliation || null, speaker_title || null,
+      speaker_google_scholar || null, speaker_linkedin || null, speaker_twitter || null, speaker_website || null
+    ],
     (err, result) => {
       if (err) {
         console.error("Database error:", err);
@@ -91,11 +103,24 @@ export const createEvent = (req, res) => {
 // Update event
 export const updateEvent = (req, res) => {
   const { id } = req.params;
-  const { day_number, time_slot, duration, type, category, title, speaker, location, description } = req.body;
+  const { 
+    day_number, time_slot, duration, type, category, title, speaker, location, description,
+    speaker_bio, speaker_photo, speaker_affiliation, speaker_title,
+    speaker_google_scholar, speaker_linkedin, speaker_twitter, speaker_website
+  } = req.body;
 
   db.query(
-    "UPDATE events SET day_number = ?, time_slot = ?, duration = ?, type = ?, category = ?, title = ?, speaker = ?, location = ?, description = ? WHERE id = ?",
-    [day_number, time_slot, duration, type, category || null, title, speaker || null, location || null, description || null, id],
+    `UPDATE events SET 
+      day_number = ?, time_slot = ?, duration = ?, type = ?, category = ?, title = ?, speaker = ?, location = ?, description = ?,
+      speaker_bio = ?, speaker_photo = ?, speaker_affiliation = ?, speaker_title = ?,
+      speaker_google_scholar = ?, speaker_linkedin = ?, speaker_twitter = ?, speaker_website = ?
+    WHERE id = ?`,
+    [
+      day_number, time_slot, duration, type, category || null, title, speaker || null, location || null, description || null,
+      speaker_bio || null, speaker_photo || null, speaker_affiliation || null, speaker_title || null,
+      speaker_google_scholar || null, speaker_linkedin || null, speaker_twitter || null, speaker_website || null,
+      id
+    ],
     (err, result) => {
       if (err) {
         console.error("Database error:", err);
@@ -129,6 +154,73 @@ export const deleteEvent = (req, res) => {
       }
       
       res.json({ message: "Event deleted successfully" });
+    }
+  );
+};
+
+// Get unique speakers with their bio information
+export const getSpeakers = (req, res) => {
+  db.query(
+    `SELECT DISTINCT 
+      speaker,
+      speaker_bio,
+      speaker_photo,
+      speaker_affiliation,
+      speaker_title,
+      speaker_google_scholar,
+      speaker_linkedin,
+      speaker_twitter,
+      speaker_website
+    FROM events 
+    WHERE speaker IS NOT NULL 
+      AND speaker != '' 
+      AND speaker != 'HEADS Research Team'
+      AND speaker != 'HEADS Team and invited experts'
+      AND speaker != 'All participants'
+    ORDER BY speaker`,
+    (err, results) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).send(err);
+      }
+      
+      // Filter out duplicates and clean up the data
+      const uniqueSpeakers = results.reduce((acc, current) => {
+        const existingSpeaker = acc.find(speaker => speaker.speaker === current.speaker);
+        if (!existingSpeaker) {
+          acc.push(current);
+        } else {
+          // Merge bio information if one speaker has more complete data
+          if (!existingSpeaker.speaker_bio && current.speaker_bio) {
+            existingSpeaker.speaker_bio = current.speaker_bio;
+          }
+          if (!existingSpeaker.speaker_photo && current.speaker_photo) {
+            existingSpeaker.speaker_photo = current.speaker_photo;
+          }
+          if (!existingSpeaker.speaker_affiliation && current.speaker_affiliation) {
+            existingSpeaker.speaker_affiliation = current.speaker_affiliation;
+          }
+          if (!existingSpeaker.speaker_title && current.speaker_title) {
+            existingSpeaker.speaker_title = current.speaker_title;
+          }
+          if (!existingSpeaker.speaker_google_scholar && current.speaker_google_scholar) {
+            existingSpeaker.speaker_google_scholar = current.speaker_google_scholar;
+          }
+          if (!existingSpeaker.speaker_linkedin && current.speaker_linkedin) {
+            existingSpeaker.speaker_linkedin = current.speaker_linkedin;
+          }
+          if (!existingSpeaker.speaker_twitter && current.speaker_twitter) {
+            existingSpeaker.speaker_twitter = current.speaker_twitter;
+          }
+          if (!existingSpeaker.speaker_website && current.speaker_website) {
+            existingSpeaker.speaker_website = current.speaker_website;
+          }
+        }
+        return acc;
+      }, []);
+      
+      console.log(`Found ${uniqueSpeakers.length} unique speakers`);
+      res.json(uniqueSpeakers);
     }
   );
 };

@@ -6,13 +6,17 @@ import {
   createEvent,
   updateEvent,
   deleteEvent,
-  bulkInsertEvents
+  bulkInsertEvents,
+  getSpeakers
 } from '../controllers/eventController.js';
 
 const router = express.Router();
 
 // GET /api/events - Get all events
 router.get('/', getEvents);
+
+// GET /api/events/speakers - Get unique speakers with bio information
+router.get('/speakers', getSpeakers);
 
 // GET /api/events/day/:day - Get events by day (day1 or day2)
 router.get('/day/:day', getEventsByDay);
