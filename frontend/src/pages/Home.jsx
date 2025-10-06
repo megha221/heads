@@ -230,7 +230,9 @@ export default function Home() {
                   </div>
                 ))}
               </div> */}
-              <span className="text-sm font-medium" style={{ color: 'green' ,fontSize: '2.2rem'}}>Supported by Wellcome Trust UK</span>
+              <div className="px-6 py-3 rounded-lg font-medium text-center" style={{ backgroundColor: '#2c5530', color: '#ffffff', fontSize: '1.1rem' }}>
+                This project was supported by an award from Neuromatch, Inc. as part of the Generative AI for Mental Health Research Accelerator, funded by Wellcome Trust Limited.
+              </div>
           </motion.div>
 
           {/* Main Title */}

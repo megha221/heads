@@ -642,7 +642,7 @@ export default function Blog() {
             </div>
             <h3 className="text-2xl font-bold text-gray-700 mb-4">No Blog Posts Yet</h3>
             <p className="text-gray-500 max-w-md mx-auto mb-6">
-              Be the first to share your thoughts and insights about the conference.
+              Be the first to share your thoughts and insights.
             </p>
             {/* <motion.button
               onClick={() => setShowForm(true)}

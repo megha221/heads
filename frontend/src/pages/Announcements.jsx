@@ -437,7 +437,7 @@ export default function Announcements() {
                
                 <h3 className="text-lg font-bold text-white">Funding Support</h3>
               </div>
-              <p className="text-white text-sm leading-relaxed">
+              <p className="text-white text-base leading-relaxed">
                 This event is supported by an award from <strong>Neuromatch, Inc.</strong> as part of the 
                 <strong> Generative AI for Mental Health Research Accelerator</strong>, funded by <strong>Wellcome Trust Limited</strong>.
               </p>
