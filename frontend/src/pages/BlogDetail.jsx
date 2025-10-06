@@ -225,6 +225,7 @@ The future of data communication is bright, with unprecedented opportunities for
                 <Link to="/announcements" className="hover:text-gray-300 transition-colors font-medium" style={{ color: '#000000' }}>Announcements</Link>
                 <Link to="/blog" className="hover:text-gray-300 transition-colors font-medium" style={{ color: '#000000' }}>Blog</Link>
               </nav>
+              {/*  */}
               
               {/* Contact Us Button */}
               <div className="hidden md:block">
