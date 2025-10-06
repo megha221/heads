@@ -296,7 +296,7 @@ export default function Home() {
             </Link>
             
             <Link
-              to="/blog"
+              to="/joinlee"
                 className="flex items-center px-8 py-4 font-semibold rounded-full transition-all duration-300 hover:scale-105"
                 style={{ 
                   backgroundColor: '#8b7355', 

@@ -6,6 +6,7 @@ import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import AdminPanel from "./pages/AdminPanel";
 import Contact from "./pages/Contact";
+import JoinLEE from "./pages/JoinLEE";
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
             <Route path="/blog/:id" element={<BlogDetail />} />
             <Route path="/admin" element={<AdminPanel />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/joinlee" element={<JoinLEE />} />
           </Routes>
         </motion.main>
       </AnimatePresence>

@@ -1,37 +1,18 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import mysql from "mysql2/promise";
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
 
 dotenv.config();
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
 
 // Database connection configuration
 const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 3306,
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '',
   database: process.env.DB_NAME || 'conference_db'
 };
 
-// Import routes
-import blogRoutes from "./routes/blogRoutes.js";
-import announcementRoutes from "./routes/announcementRoutes.js";
-import eventRoutes from "./routes/eventRoutes.js";
-
-// Use routes
-app.use("/api/blogs", blogRoutes);
-app.use("/api/announcements", announcementRoutes);
-app.use("/api/events", eventRoutes);
-
-// LEE routes - add them directly here to avoid import issues
-app.post('/api/lee/register', async (req, res) => {
-  let connection;
+// Create LEE registration
+const createLEERegistration = async (req, res) => {
   try {
     const { name, email, age, phone } = req.body;
 
@@ -62,15 +43,7 @@ app.post('/api/lee/register', async (req, res) => {
     }
 
     // Create database connection
-    try {
-      connection = await mysql.createConnection(dbConfig);
-    } catch (dbError) {
-      console.error('Database connection error:', dbError.message);
-      return res.status(500).json({ 
-        success: false, 
-        message: 'Database connection failed. Please try again later.' 
-      });
-    }
+    const connection = await mysql.createConnection(dbConfig);
 
     // Check if email already exists
     const [existingLEE] = await connection.execute(
@@ -108,21 +81,17 @@ app.post('/api/lee/register', async (req, res) => {
 
   } catch (error) {
     console.error('Error creating LEE registration:', error);
-    if (connection) {
-      await connection.end();
-    }
     res.status(500).json({ 
       success: false, 
       message: 'Internal server error' 
     });
   }
-});
+};
 
-app.get('/api/lee', async (req, res) => {
-  let connection;
+// Get all LEE registrations (for admin use)
+const getAllLEERegistrations = async (req, res) => {
   try {
-    // Create database connection
-    connection = await mysql.createConnection(dbConfig);
+    const connection = await mysql.createConnection(dbConfig);
 
     const [rows] = await connection.execute(
       'SELECT id, name, email, age, phone, created_at FROM lee_registrations ORDER BY created_at DESC'
@@ -137,37 +106,50 @@ app.get('/api/lee', async (req, res) => {
 
   } catch (error) {
     console.error('Error fetching LEE registrations:', error);
-    if (connection) {
-      await connection.end();
-    }
     res.status(500).json({ 
       success: false, 
       message: 'Internal server error' 
     });
   }
-});
+};
 
-const PORT = process.env.PORT || 3001;
-
-// Test database connection on startup
-async function testDatabaseConnection() {
+// Get LEE registration by ID
+const getLEERegistrationById = async (req, res) => {
   try {
-    const connection = await mysql.createConnection(dbConfig);
-    await connection.execute('SELECT 1');
-    await connection.end();
-    console.log('✅ Database connection successful');
-    return true;
-  } catch (error) {
-    console.error('❌ Database connection failed:', error.message);
-    console.log('⚠️  Server will run without database functionality');
-    return false;
-  }
-}
+    const { id } = req.params;
 
-app.listen(PORT, async () => {
-  console.log(`✅ Server running on port ${PORT}`);
-  console.log('LEE API available at: http://localhost:3001/api/lee/register');
-  
-  // Test database connection
-  await testDatabaseConnection();
-});
+    const connection = await mysql.createConnection(dbConfig);
+
+    const [rows] = await connection.execute(
+      'SELECT id, name, email, age, phone, created_at FROM lee_registrations WHERE id = ?',
+      [id]
+    );
+
+    await connection.end();
+
+    if (rows.length === 0) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'LEE registration not found' 
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: rows[0]
+    });
+
+  } catch (error) {
+    console.error('Error fetching LEE registration:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Internal server error' 
+    });
+  }
+};
+
+export {
+  createLEERegistration,
+  getAllLEERegistrations,
+  getLEERegistrationById
+};
