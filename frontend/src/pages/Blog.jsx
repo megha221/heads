@@ -373,12 +373,12 @@ export default function Blog() {
           
           {/* Write Blog Button */}
           <motion.button
-            onClick={() => setShowForm(!showForm)}
+            onClick={() => window.open('mailto:project.heads.ai@gmail.com?subject=Blog Post Contribution&body=Hi,%0A%0AI would like to contribute a blog post to the HEADS Research Blog.%0A%0AThank you!', '_self')}
             className="backdrop-blur-sm border font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105"
             style={{ 
               backgroundColor: '#2c5530', 
               borderColor: '#2c5530', 
-              color: '#ffffff' 
+              color: '#ffffff'
             }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -386,7 +386,7 @@ export default function Blog() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            {showForm ? "Cancel" : "Write New Post"}
+            Contribute Post
           </motion.button>
         </div>
       </motion.div>
@@ -644,14 +644,14 @@ export default function Blog() {
             <p className="text-gray-500 max-w-md mx-auto mb-6">
               Be the first to share your thoughts and insights about the conference.
             </p>
-            <motion.button
+            {/* <motion.button
               onClick={() => setShowForm(true)}
               className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               Write First Post
-            </motion.button>
+            </motion.button> */}
           </motion.div>
         )}
       </div>

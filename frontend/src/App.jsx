@@ -5,6 +5,7 @@ import Announcements from "./pages/Announcements";
 import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import AdminPanel from "./pages/AdminPanel";
+import Contact from "./pages/Contact";
 
 function App() {
   const location = useLocation();
@@ -26,6 +27,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogDetail />} />
             <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </motion.main>
       </AnimatePresence>

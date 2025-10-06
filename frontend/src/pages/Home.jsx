@@ -21,7 +21,7 @@ export default function Home() {
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
               </div>
-              <h1 className="text-2xl font-bold" style={{ color: '#000000' }}>HEADS Project</h1>
+              <h1 className="text-2xl font-bold" style={{ color: '#000000' }}>Pilot Phase</h1>
             </div>
             
             {/* Navigation Links */}
@@ -213,13 +213,13 @@ export default function Home() {
           <div className="max-w-4xl mx-auto">
             
             {/* Trusted Patients Badge */}
-        {/* <motion.div
+        <motion.div
               className="flex items-center justify-center space-x-3 mb-8"
               initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-              <div className="flex -space-x-2">
+              {/* <div className="flex -space-x-2">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <div
                     key={i}
@@ -229,9 +229,9 @@ export default function Home() {
                     <div className="w-full h-full bg-gray-300"></div>
                   </div>
                 ))}
-              </div>
-              <span className="text-sm font-medium" style={{ color: '#000000' }}>500+ Research Participants</span>
-          </motion.div> */}
+              </div> */}
+              <span className="text-sm font-medium" style={{ color: 'green' ,fontSize: '2.2rem'}}>Supported by Wellcome Trust UK</span>
+          </motion.div>
 
           {/* Main Title */}
           <motion.h1
@@ -241,7 +241,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 1 }}
             >
-               Human-in-the-loop Evaluation of Assisted Depression Screening(HEADS)
+               Human-in-the-loop Evaluation of Assisted Depression Screening (HEADS)
           </motion.h1>
 
           {/* Subtitle */}
@@ -338,7 +338,7 @@ export default function Home() {
       </div>
 
       {/* Stats Section */}
-      <motion.section
+      {/* <motion.section
         className="py-20"
         style={{ backgroundColor: '#f5f5dc' }}
         initial={{ opacity: 0 }}
@@ -375,7 +375,7 @@ export default function Home() {
             ))}
           </motion.div>
         </div>
-      </motion.section>
+      </motion.section> */}
 
       {/* About Section - Hearts Unite */}
       <motion.section
@@ -405,18 +405,18 @@ export default function Home() {
             {[
               {
                 title: "Multilingual AI Support",
-                description: "Multilingual AI Support provides accessible mental health tools, fostering resilience & encouraging individuals to embrace their mental health journey through culturally sensitive AI assistance.",
-                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=300&fit=crop&crop=center"
+                description: "Accessible mental health tools, fostering resilience & encouraging individuals to embrace their mental health journey through culturally sensitive AI assistance.",
+                
               },
               {
                 title: "Research Collaboration",
-                description: "Research Collaboration provides essential support and resources, fostering mental wellness and connection for researchers navigating complex mental health challenges",
-                image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop&crop=center"
+                description: "Essential support and resources, fostering mental wellness and connection for researchers navigating complex mental health challenges.",
+               
               },
               {
                 title: "Lived Experience Integration",
-                description: "Lived Experience Integration provides nurturing mental health support, encouraging individuals to embrace self-care & foster emotional resilience through AI-assisted care.",
-                image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=300&fit=crop&crop=center"
+                description: "Embedding personal experience of mental health challenges, ensuring effective , ethical AI technologies grounded in real world needs.",
+          
               }
             ].map((service, index) => (
               <motion.div
@@ -430,13 +430,13 @@ export default function Home() {
                 whileHover={{ y: -5 }}
               >
                 {/* Image */}
-                <div className="relative h-48 overflow-hidden">
+                {/* <div className="relative h-48 overflow-hidden">
                   <img 
                     src={service.image} 
                     alt={service.title}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                   />
-                </div>
+                </div> */}
                 
                 {/* Content */}
                 <div className="p-6">
@@ -448,7 +448,7 @@ export default function Home() {
                   </p>
                   
                   {/* Read More Button */}
-                  <button className="flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
+                  {/* <button className="flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 hover:scale-105"
                     style={{ backgroundColor: '#2c5530' }}
                   >
                     <span className="font-semibold" style={{ color: '#ffffff' }}>Read More</span>
@@ -459,7 +459,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
-                  </button>
+                  </button> */}
                 </div>
               </motion.div>
             ))}
@@ -562,7 +562,7 @@ export default function Home() {
                       <div className="text-sm">Once every ~2 weeks</div>
                     </div>
                   </div>
-                  <div className="flex items-center" style={{ color: '#000000' }}>
+                  {/* <div className="flex items-center" style={{ color: '#000000' }}>
                     <div className="w-8 h-8 rounded-full flex items-center justify-center mr-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}>
                       <span className="text-sm font-bold">💰</span>
                     </div>
@@ -570,7 +570,7 @@ export default function Home() {
                       <div className="font-semibold">Compensation</div>
                       <div className="text-sm">₹3,000/day in-person, ₹1,500 online</div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="flex items-center" style={{ color: '#000000' }}>
                     <div className="w-8 h-8 rounded-full flex items-center justify-center mr-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}>
                       <span className="text-sm font-bold">🔒</span>
@@ -666,29 +666,7 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Together We Build Better Care Banner */}
-          <motion.div
-            className="bg-white rounded-3xl p-12 text-center border border-gray-200 shadow-lg"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl sm:text-5xl font-bold mb-6" style={{ color: '#000000' }}>
-              Together, We Build Better Care
-            </h2>
-            <div className="text-xl max-w-4xl mx-auto" style={{ color: '#000000' }}>
-              <span className="font-semibold">Your lived experience</span>
-              <span className="mx-4">+</span>
-              <span className="font-semibold">Our AI research</span>
-              <span className="mx-4">=</span>
-              <span className="font-semibold">Mental health tools that truly understand and help</span>
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      {/* Why LEEs Are Essential Section */}
+           {/* Why LEEs Are Essential Section */}
       <motion.section
         className="relative py-20"
         style={{ backgroundColor: '#f5f5dc' }}
@@ -736,6 +714,30 @@ export default function Home() {
         </div>
       </motion.section>
 
+
+          {/* Together We Build Better Care Banner */}
+          <motion.div
+            className="bg-white rounded-3xl p-12 text-center border border-gray-200 shadow-lg"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl sm:text-5xl font-bold mb-6" style={{ color: '#000000' }}>
+              Together, We Build Better Care
+            </h2>
+            <div className="text-xl max-w-4xl mx-auto" style={{ color: '#000000' }}>
+              <span className="font-semibold">Your lived experience</span>
+              <span className="mx-4">+</span>
+              <span className="font-semibold">Our AI research</span>
+              <span className="mx-4">=</span>
+              <span className="font-semibold">Mental health tools that truly understand and help</span>
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+     
       {/* Collaborative Institutions Section */}
       <motion.section
         className="relative py-20"
@@ -818,7 +820,7 @@ export default function Home() {
       </motion.section>
 
       {/* Project Deliverables Section */}
-      <motion.section
+      {/* <motion.section
         className="relative py-20"
         style={{ backgroundColor: '#f5f5dc' }}
         initial={{ opacity: 0 }}
@@ -881,10 +883,10 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </motion.section>
+      </motion.section> */}
 
       {/* Research Approach Section */}
-      <motion.section
+      {/* <motion.section
         className="relative py-20"
         style={{ backgroundColor: '#f5f5dc' }}
         initial={{ opacity: 0 }}
@@ -966,7 +968,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </motion.section>
+      </motion.section> */}
 
       {/* Call to Action Section */}
       <motion.section
