@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Test styles to verify Tailwind is working */
+/* HEADS Project Global Styles */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,6 +10,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #1e3523;
+  color: rgb(239, 243, 223);
+}
+
+/* Ensure all pages use HEADS color scheme */
+html {
+  background-color: #1e3523;
+}
+
+/* Prevent white flash during page transitions */
+#root {
+  background-color: #1e3523;
+  min-height: 100vh;
 }
 
 /* Custom test class */

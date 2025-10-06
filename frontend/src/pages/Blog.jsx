@@ -5,15 +5,21 @@ import axios from "axios";
 
 export default function Blog() {
   const [blogs, setBlogs] = useState([]);
-  const [form, setForm] = useState({ title: "", content: "" });
+  const [form, setForm] = useState({ title: "", content: "", username: "", image: "" });
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/blogs");
+        const response = await axios.get("http://localhost:3001/api/blogs");
         setBlogs(response.data);
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -51,29 +57,27 @@ export default function Blog() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.title.trim() || !form.content.trim()) return;
+    if (!form.title.trim() || !form.content.trim() || !form.username.trim()) {
+      alert("Please fill in all required fields (title, content, and username)");
+      return;
+    }
 
     setSubmitting(true);
     try {
-      await axios.post("http://localhost:5000/api/blogs", form);
-      setForm({ title: "", content: "" });
+      await axios.post("http://localhost:3001/api/blogs/submit", form);
+      setForm({ title: "", content: "", username: "", image: "" });
       setShowForm(false);
+      setSubmitSuccess(true);
       
-      // Refresh blogs
-      const response = await axios.get("http://localhost:5000/api/blogs");
+      // Refresh the blog list to show the new post
+      const response = await axios.get("http://localhost:3001/api/blogs");
       setBlogs(response.data);
+      
+      // Hide success message after 3 seconds
+      setTimeout(() => setSubmitSuccess(false), 3000);
     } catch (error) {
-      console.error("Error creating blog:", error);
-      // For demo purposes, add to local state
-      const newBlog = {
-        id: Date.now(),
-        title: form.title,
-        content: form.content,
-        created_at: new Date().toISOString()
-      };
-      setBlogs([newBlog, ...blogs]);
-      setForm({ title: "", content: "" });
-      setShowForm(false);
+      console.error("Error submitting blog:", error);
+      alert("Error submitting blog. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -113,25 +117,236 @@ export default function Blog() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen overflow-hidden" style={{ backgroundColor: '#f5f5dc' }}>
+        {/* Header */}
+        <header className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: '#f5f5dc' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-4">
+              {/* Logo */}
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </div>
+                <h1 className="text-2xl font-bold" style={{ color: '#000000' }}>HEADS Project</h1>
+              </div>
+              
+              {/* Navigation Links */}
+              <nav className="hidden md:flex space-x-8">
+                <Link to="/" className="hover:text-gray-300 transition-colors font-medium" style={{ color: '#000000' }}>Home</Link>
+                <Link to="/announcements" className="hover:text-gray-300 transition-colors font-medium" style={{ color: '#000000' }}>Announcements</Link>
+                <Link to="/blog" className="hover:text-gray-300 transition-colors font-medium" style={{ color: '#000000' }}>Blog</Link>
+              </nav>
+              
+              {/* Contact Us Button */}
+              <div className="hidden md:block">
+                <Link
+                  to="/contact"
+                  className="px-6 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                  style={{ 
+                    backgroundColor: '#2c5530', 
+                    color: '#ffffff' 
+                  }}
+                >
+                  Contact Us
+                </Link>
+              </div>
+              
+              {/* Mobile Menu Button */}
+              <div className="md:hidden">
+                <button 
+                  onClick={toggleMobileMenu}
+                  className="hover:text-gray-300 transition-colors" 
+                  style={{ color: '#000000' }}
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <motion.div
+              className="md:hidden border-t"
+              style={{ borderColor: 'rgba(0, 0, 0, 0.2)' }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="py-4 space-y-4">
+                <Link 
+                  to="/" 
+                  className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                  style={{ color: '#000000' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Home
+                </Link>
+                <Link 
+                  to="/announcements" 
+                  className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                  style={{ color: '#000000' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Announcements
+                </Link>
+                <Link 
+                  to="/blog" 
+                  className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                  style={{ color: '#000000' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Blog
+                </Link>
+                <Link 
+                  to="/contact" 
+                  className="block px-4 py-2 rounded-lg mx-4 mt-4 text-center font-semibold"
+                  style={{ 
+                    backgroundColor: '#2c5530', 
+                    color: '#ffffff' 
+                  }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact Us
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </header>
+
+        <div className="min-h-screen flex items-center justify-center pt-20">
         <motion.div
           className="text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">Loading blog posts...</p>
+            <div className="w-16 h-16 border-4 border-transparent border-t-current rounded-full animate-spin mx-auto mb-4" style={{ borderTopColor: '#000000' }}></div>
+            <p className="text-lg" style={{ color: '#000000' }}>Loading blog posts...</p>
         </motion.div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50">
+    <div className="min-h-screen overflow-hidden" style={{ backgroundColor: '#f5f5dc' }}>
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: '#f5f5dc' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            {/* Logo */}
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <h1 className="text-2xl font-bold" style={{ color: '#000000' }}>HEADS Project</h1>
+            </div>
+            
+            {/* Navigation Links */}
+            <nav className="hidden md:flex space-x-8">
+              <Link to="/" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Home</Link>
+              <Link to="/announcements" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Announcements</Link>
+              <Link to="/blog" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Blog</Link>
+            </nav>
+            
+            {/* Contact Us Button */}
+            <div className="hidden md:block">
+              <Link
+                to="/contact"
+                className="px-6 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                style={{ 
+                  backgroundColor: '#2c5530', 
+                  color: '#ffffff' 
+                }}
+              >
+                Contact Us
+              </Link>
+            </div>
+            
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button 
+                onClick={toggleMobileMenu}
+                className="hover:text-gray-600 transition-colors" 
+                style={{ color: '#000000' }}
+              >
+                {isMobileMenuOpen ? (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                ) : (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <motion.div
+            className="md:hidden border-t"
+            style={{ borderColor: 'rgba(0, 0, 0, 0.2)' }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="py-4 space-y-4">
+              <Link 
+                to="/" 
+                className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                style={{ color: '#000000' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/announcements" 
+                className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                style={{ color: '#000000' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Announcements
+              </Link>
+              <Link 
+                to="/blog" 
+                className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                style={{ color: '#000000' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Blog
+              </Link>
+              <Link 
+                to="/contact" 
+                className="block px-4 py-2 rounded-lg mx-4 mt-4 text-center font-semibold"
+                style={{ 
+                  backgroundColor: '#2c5530', 
+                  color: '#ffffff' 
+                }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact Us
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </header>
+
       {/* Header Section */}
       <motion.div
-        className="bg-gradient-to-r from-purple-600 via-blue-600 to-purple-800 text-white py-20"
+        className="py-20 pt-32"
+        style={{ backgroundColor: '#f5f5dc' }}
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -139,25 +354,32 @@ export default function Blog() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1
             className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
+            style={{ color: '#000000' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Conference Blog
+            HEADS Research Blog
           </motion.h1>
           <motion.p
-            className="text-xl sm:text-2xl text-purple-100 max-w-3xl mx-auto mb-8"
+            className="text-xl sm:text-2xl max-w-3xl mx-auto mb-8"
+            style={{ color: '#000000' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            Share insights, experiences, and thoughts about data communication and networking.
+            Insights, updates, and research findings from our AI-assisted depression screening project.
           </motion.p>
           
           {/* Write Blog Button */}
           <motion.button
             onClick={() => setShowForm(!showForm)}
-            className="bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold px-8 py-3 rounded-full hover:bg-white/30 transition-all duration-300 hover:scale-105"
+            className="backdrop-blur-sm border font-semibold px-8 py-3 rounded-full transition-all duration-300 hover:scale-105"
+            style={{ 
+              backgroundColor: '#2c5530', 
+              borderColor: '#2c5530', 
+              color: '#ffffff' 
+            }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
@@ -169,6 +391,23 @@ export default function Blog() {
         </div>
       </motion.div>
 
+      {/* Success Message */}
+      <AnimatePresence>
+        {submitSuccess && (
+          <motion.div
+            className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg text-center">
+              ✅ Your blog post has been published successfully! It's now live on the blog page.
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Blog Form */}
       <AnimatePresence>
         {showForm && (
@@ -179,33 +418,80 @@ export default function Blog() {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Create New Blog Post</h2>
+            <div className="rounded-2xl shadow-xl p-8 border" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderColor: 'rgba(0, 0, 0, 0.2)' }}>
+              <h2 className="text-2xl font-bold mb-6" style={{ color: '#000000' }}>Create New Blog Post</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Title
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter your blog title..."
-                    value={form.title}
-                    onChange={(e) => setForm({ ...form, title: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                    required
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium mb-2" style={{ color: '#000000' }}>
+                      Title *
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter your blog title..."
+                      value={form.title}
+                      onChange={(e) => setForm({ ...form, title: e.target.value })}
+                      className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all duration-200"
+                      style={{ 
+                        backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                        borderColor: 'rgba(0, 0, 0, 0.3)', 
+                        color: '#000000' 
+                      }}
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-2" style={{ color: '#000000' }}>
+                      Your Username *
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter your username..."
+                      value={form.username}
+                      onChange={(e) => setForm({ ...form, username: e.target.value })}
+                      className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all duration-200"
+                      style={{ 
+                        backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                        borderColor: 'rgba(0, 0, 0, 0.3)', 
+                        color: '#000000' 
+                      }}
+                      required
+                    />
+                  </div>
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Content
+                    Featured Image URL (Optional)
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="https://images.unsplash.com/photo-..."
+                    value={form.image}
+                    onChange={(e) => setForm({ ...form, image: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  />
+                  <p className="text-sm text-gray-500 mt-1">
+                    Add a compelling image to make your blog post more engaging
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2" style={{ color: '#000000' }}>
+                    Content *
                   </label>
                   <textarea
                     placeholder="Write your blog post content..."
                     value={form.content}
                     onChange={(e) => setForm({ ...form, content: e.target.value })}
                     rows={8}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 resize-none"
+                    className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent transition-all duration-200 resize-none"
+                    style={{ 
+                      backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                      borderColor: 'rgba(0, 0, 0, 0.3)', 
+                      color: '#000000' 
+                    }}
                     required
                   />
                 </div>
@@ -214,7 +500,11 @@ export default function Blog() {
                   <motion.button
                     type="submit"
                     disabled={submitting}
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="font-semibold px-8 py-3 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ 
+                      backgroundColor: '#2c5530', 
+                      color: '#ffffff' 
+                    }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -253,7 +543,8 @@ export default function Blog() {
                 y: -2,
                 transition: { duration: 0.2 }
               }}
-              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100"
+              className="rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderColor: 'rgba(0, 0, 0, 0.2)' }}
             >
               {/* Blog Image */}
               <div className="relative h-48 overflow-hidden">
@@ -273,14 +564,16 @@ export default function Blog() {
                 <div className="absolute bottom-4 left-4 right-4">
                   <div className="flex items-center space-x-3 mb-2">
                     <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold text-xs">DC</span>
+                      <span className="text-white font-bold text-xs">
+                        {blog.username ? blog.username.charAt(0).toUpperCase() : 'A'}
+                      </span>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-white">DCNet Conference</p>
-                      <p className="text-xs text-white/80">{formatDate(blog.created_at)}</p>
+                      <p className="text-sm font-medium" style={{ color: '#000000' }}>{blog.username || 'Anonymous'}</p>
+                      <p className="text-xs" style={{ color: '#000000' }}>{formatDate(blog.created_at)}</p>
                     </div>
                   </div>
-                  <h2 className="text-white text-xl font-bold">
+                  <h2 className="text-xl font-bold" style={{ color: '#000000' }}>
                     {blog.title}
                   </h2>
                 </div>
@@ -288,15 +581,16 @@ export default function Blog() {
 
               <div className="p-8">
                 {/* Blog Content */}
-                <p className="text-gray-600 leading-relaxed mb-6">
+                <p className="leading-relaxed mb-6" style={{ color: '#000000' }}>
                   {blog.content}
                 </p>
 
                 {/* Blog Actions */}
-                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-between pt-4" style={{ borderColor: 'rgba(0, 0, 0, 0.2)' }}>
                   <div className="flex items-center space-x-4">
                     <motion.button
-                      className="flex items-center space-x-2 text-gray-500 hover:text-purple-600 transition-colors duration-200"
+                      className="flex items-center space-x-2 transition-colors duration-200"
+                      style={{ color: '#000000' }}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -307,7 +601,8 @@ export default function Blog() {
                     </motion.button>
                     
                     <motion.button
-                      className="flex items-center space-x-2 text-gray-500 hover:text-blue-600 transition-colors duration-200"
+                      className="flex items-center space-x-2 transition-colors duration-200"
+                      style={{ color: '#000000' }}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -319,11 +614,12 @@ export default function Blog() {
                   </div>
                   
                   <motion.button
-                    className="text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200"
+                    className="font-medium transition-colors duration-200 px-4 py-2 rounded-lg"
+                    style={{ backgroundColor: '#2c5530', color: '#ffffff' }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Link to={`/blog/${blog.id}`}>Read More</Link>
+                    <Link to={`/blog/${blog.id}`} style={{ color: '#ffffff' }}>Read More</Link>
                   </motion.button>
                 </div>
               </div>

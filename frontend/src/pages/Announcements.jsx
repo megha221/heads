@@ -1,48 +1,43 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function Announcements() {
   const [announcements, setAnnouncements] = useState([]);
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDay, setActiveDay] = useState('day1'); // For tabs approach
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   useEffect(() => {
-    const fetchAnnouncements = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/announcements");
-        setAnnouncements(response.data);
-      } catch (error) {
-        console.error("Error fetching announcements:", error);
-        // Fallback data for demo
-        setAnnouncements([
-          {
-            id: 1,
-            title: "Workshop Registration Open",
-            description: "Registration for our hands-on workshops is now open. Limited seats available! Join us for intensive sessions on cutting-edge networking technologies.",
-            created_at: "2025-01-15T10:00:00Z",
-            image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=250&fit=crop&crop=center"
-          },
-          {
-            id: 2,
-            title: "Keynote Speaker Announcement",
-            description: "We are excited to announce Dr. Sarah Johnson as our keynote speaker for DCNet 2025. Dr. Johnson will present on 'The Future of Quantum Networking'.",
-            created_at: "2025-01-10T14:30:00Z",
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop&crop=center"
-          },
-          {
-            id: 3,
-            title: "Call for Papers Extended",
-            description: "The deadline for paper submissions has been extended to March 15th, 2025. Submit your research on data communication and networking innovations.",
-            created_at: "2025-01-05T09:15:00Z",
-            image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop&crop=center"
-          }
+        // Fetch both announcements and events
+        const [announcementsResponse, eventsResponse] = await Promise.all([
+          axios.get("http://localhost:3001/api/announcements"),
+          axios.get("http://localhost:3001/api/events")
         ]);
+        
+        setAnnouncements(announcementsResponse.data);
+        setEvents(eventsResponse.data);
+        console.log('Events loaded:', eventsResponse.data);
+        console.log('Events count:', eventsResponse.data.length);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Show empty state if no data
+        setAnnouncements([]);
+        setEvents([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAnnouncements();
+    fetchData();
   }, []);
 
   const formatDate = (dateString) => {
@@ -51,6 +46,23 @@ export default function Announcements() {
       month: 'long',
       day: 'numeric'
     });
+  };
+
+  // Helper function to get events by day (already sorted by backend)
+  const getEventsByDay = (day) => {
+    const filteredEvents = events.filter(event => event.day_number === day);
+    console.log(`Events for ${day}:`, filteredEvents);
+    // Events are already sorted chronologically by the backend
+    return filteredEvents;
+  };
+
+  // Helper function to get day title
+  const getDayTitle = (day) => {
+    const titles = {
+      'day1': 'Day 1 - Data Privacy, Security and Ethical AI in Mental Health',
+      'day2': 'Day 2 - Advanced AI Ethics and Implementation'
+    };
+    return titles[day] || `Day ${day}`;
   };
 
   const containerVariants = {
@@ -77,25 +89,230 @@ export default function Announcements() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen overflow-hidden" style={{ backgroundColor: '#f5f5dc' }}>
+        {/* Header */}
+        <header className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: '#f5f5dc' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-4">
+              {/* Logo */}
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </div>
+                <h1 className="text-2xl font-bold" style={{ color: '#000000' }}>HEADS Project</h1>
+              </div>
+              
+              {/* Navigation Links */}
+              <nav className="hidden md:flex space-x-8">
+                <Link to="/" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Home</Link>
+                <Link to="/announcements" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Announcements</Link>
+                <Link to="/blog" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Blog</Link>
+              </nav>
+              
+              {/* Contact Us Button */}
+              <div className="hidden md:block">
+                <Link
+                  to="/contact"
+                  className="px-6 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                  style={{ 
+                    backgroundColor: '#2c5530', 
+                    color: '#ffffff' 
+                  }}
+                >
+                  Contact Us
+                </Link>
+              </div>
+              
+              {/* Mobile Menu Button */}
+              <div className="md:hidden">
+                <button 
+                  onClick={toggleMobileMenu}
+                  className="hover:text-gray-600 transition-colors" 
+                  style={{ color: '#000000' }}
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <motion.div
+              className="md:hidden border-t"
+              style={{ borderColor: 'rgba(0, 0, 0, 0.2)' }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="py-4 space-y-4">
+                <Link 
+                  to="/" 
+                  className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                  style={{ color: '#000000' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Home
+                </Link>
+                <Link 
+                  to="/announcements" 
+                  className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                  style={{ color: '#000000' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Announcements
+                </Link>
+                <Link 
+                  to="/blog" 
+                  className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                  style={{ color: '#000000' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Blog
+                </Link>
+                <Link 
+                  to="/contact" 
+                  className="block px-4 py-2 rounded-lg mx-4 mt-4 text-center font-semibold"
+                  style={{ 
+                    backgroundColor: '#2c5530', 
+                    color: '#ffffff' 
+                  }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact Us
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </header>
+
+        <div className="min-h-screen flex items-center justify-center pt-20">
         <motion.div
           className="text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">Loading announcements...</p>
+            <div className="w-16 h-16 border-4 border-transparent border-t-current rounded-full animate-spin mx-auto mb-4" style={{ borderTopColor: '#000000' }}></div>
+            <p className="text-lg" style={{ color: '#000000' }}>Loading announcements...</p>
         </motion.div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <div className="min-h-screen overflow-hidden" style={{ backgroundColor: '#f5f5dc' }}>
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: '#f5f5dc' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            {/* Logo */}
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <h1 className="text-2xl font-bold" style={{ color: '#000000' }}>HEADS Project</h1>
+            </div>
+            
+            {/* Navigation Links */}
+            <nav className="hidden md:flex space-x-8">
+              <Link to="/" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Home</Link>
+              <Link to="/announcements" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Announcements</Link>
+              <Link to="/blog" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Blog</Link>
+            </nav>
+            
+            {/* Contact Us Button */}
+            <div className="hidden md:block">
+              <Link
+                to="/contact"
+                className="px-6 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                style={{ 
+                  backgroundColor: '#2c5530', 
+                  color: '#ffffff' 
+                }}
+              >
+                Contact Us
+              </Link>
+            </div>
+            
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button 
+                onClick={toggleMobileMenu}
+                className="hover:text-gray-600 transition-colors" 
+                style={{ color: '#000000' }}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <motion.div
+            className="md:hidden border-t"
+            style={{ borderColor: 'rgba(0, 0, 0, 0.2)' }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="py-4 space-y-4">
+              <Link 
+                to="/" 
+                className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                style={{ color: '#000000' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/announcements" 
+                className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                style={{ color: '#000000' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Announcements
+              </Link>
+              <Link 
+                to="/blog" 
+                className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                style={{ color: '#000000' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Blog
+              </Link>
+              <Link 
+                to="/contact" 
+                className="block px-4 py-2 rounded-lg mx-4 mt-4 text-center font-semibold"
+                style={{ 
+                  backgroundColor: '#2c5530', 
+                  color: '#ffffff' 
+                }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact Us
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </header>
+
       {/* Header Section */}
       <motion.div
-        className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 text-white py-20"
+        className="py-20 pt-32"
+        style={{ backgroundColor: '#f5f5dc' }}
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -103,20 +320,538 @@ export default function Announcements() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1
             className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
+            style={{ color: '#000000' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Conference Announcements
+            HEADS Project Announcements
           </motion.h1>
           <motion.p
-            className="text-xl sm:text-2xl text-blue-100 max-w-3xl mx-auto"
+            className="text-xl sm:text-2xl max-w-3xl mx-auto"
+            style={{ color: '#000000' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            Stay updated with the latest workshop updates, speaker announcements, and conference news.
+            Stay updated with the latest research progress, LEE engagement updates, and project milestones.
           </motion.p>
+        </div>
+      </motion.div>
+
+      {/* Schedule Section - APPROACH 1: TABS */}
+      <motion.div
+        className="py-16"
+        style={{ backgroundColor: '#f5f5dc' }}
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.8 }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ color: '#000000' }}>
+              Workshop Schedule
+            </h2>
+            <p className="text-lg mb-8" style={{ color: '#000000' }}>
+              Choose your preferred view
+            </p>
+            
+            {/* Tabs */}
+            <div className="flex justify-center mb-8">
+              <div className="flex rounded-lg p-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}>
+                <button
+                  onClick={() => setActiveDay('day1')}
+                  className={`px-6 py-2 rounded-md font-semibold transition-all duration-200 ${
+                    activeDay === 'day1' 
+                      ? 'text-white' 
+                      : 'text-gray-600 hover:text-black'
+                  }`}
+                  style={{ 
+                    backgroundColor: activeDay === 'day1' ? '#2c5530' : 'transparent'
+                  }}
+                >
+                  Day 1
+                </button>
+                <button
+                  onClick={() => setActiveDay('day2')}
+                  className={`px-6 py-2 rounded-md font-semibold transition-all duration-200 ${
+                    activeDay === 'day2' 
+                      ? 'text-white' 
+                      : 'text-gray-600 hover:text-black'
+                  }`}
+                  style={{ 
+                    backgroundColor: activeDay === 'day2' ? '#2c5530' : 'transparent'
+                  }}
+                >
+                  Day 2
+                </button>
+                <button
+                  onClick={() => setActiveDay('combined')}
+                  className={`px-6 py-2 rounded-md font-semibold transition-all duration-200 ${
+                    activeDay === 'combined' 
+                      ? 'text-white' 
+                      : 'text-gray-600 hover:text-black'
+                  }`}
+                  style={{ 
+                    backgroundColor: activeDay === 'combined' ? '#2c5530' : 'transparent'
+                  }}
+                >
+                  Combined View
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Day 1 Data */}
+          {activeDay === 'day1' && (
+            <div className="space-y-4">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold mb-2" style={{ color: '#000000' }}>
+                  {getDayTitle('day1')}
+                </h3>
+              </div>
+              {getEventsByDay('day1').map((item, index) => (
+              <motion.div
+                key={index}
+                className="rounded-lg p-6"
+                style={{ 
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                  borderColor: 'rgba(0, 0, 0, 0.2)',
+                  border: '1px solid'
+                }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                whileHover={{ 
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                  {/* Time and Duration */}
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div 
+                        className="px-3 py-1 rounded-full text-sm font-semibold"
+                        style={{ 
+                          backgroundColor: '#2c5530', 
+                          color: '#ffffff' 
+                        }}
+                      >
+                        {item.time_slot}
+                      </div>
+                      <div 
+                        className="px-3 py-1 rounded-full text-sm"
+                        style={{ 
+                          backgroundColor: 'rgba(0, 0, 0, 0.2)', 
+                          color: '#000000' 
+                        }}
+                      >
+                        {item.duration}
+                      </div>
+                    </div>
+                    <div 
+                      className="text-lg font-bold"
+                      style={{ color: '#000000' }}
+                    >
+                      {item.type}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1">
+                    {item.category && (
+                      <div 
+                        className="text-sm font-medium mb-2"
+                        style={{ color: '#2c5530' }}
+                      >
+                        {item.category}
+                      </div>
+                    )}
+                    {item.title && (
+                      <h3 
+                        className="text-lg font-semibold mb-2"
+                        style={{ color: '#000000' }}
+                      >
+                        {item.title}
+                      </h3>
+                    )}
+                    {item.speaker && (
+                      <div className="mb-2">
+                        <span 
+                          className="text-sm font-medium"
+                          style={{ color: '#000000' }}
+                        >
+                          Speaker: 
+                        </span>
+                        <span 
+                          className="text-sm ml-1"
+                          style={{ color: '#000000' }}
+                        >
+                          {item.speaker}
+                        </span>
+                        {item.location && (
+                          <span 
+                            className="text-sm ml-2"
+                            style={{ color: '#000000' }}
+                          >
+                            ({item.location})
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    {item.description && (
+                      <p 
+                        className="text-sm leading-relaxed"
+                        style={{ color: '#000000' }}
+                      >
+                        {item.description}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+            </div>
+          )}
+
+          {/* Day 2 Data */}
+          {activeDay === 'day2' && (
+            <div className="space-y-4">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold mb-2" style={{ color: '#000000' }}>
+                  {getDayTitle('day2')}
+                </h3>
+              </div>
+              {getEventsByDay('day2').map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="rounded-lg p-6"
+                  style={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                    borderColor: 'rgba(0, 0, 0, 0.2)',
+                    border: '1px solid'
+                  }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                  whileHover={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    transition: { duration: 0.2 }
+                  }}
+                >
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                    {/* Time and Duration */}
+                    <div className="flex-shrink-0">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div 
+                          className="px-3 py-1 rounded-full text-sm font-semibold"
+                          style={{ 
+                            backgroundColor: '#2c5530', 
+                            color: '#ffffff' 
+                          }}
+                        >
+                          {item.time_slot}
+                        </div>
+                        <div 
+                          className="px-3 py-1 rounded-full text-sm"
+                          style={{ 
+                            backgroundColor: 'rgba(0, 0, 0, 0.2)', 
+                            color: '#000000' 
+                          }}
+                        >
+                          {item.duration}
+                        </div>
+                      </div>
+                      <div 
+                        className="text-lg font-bold"
+                        style={{ color: '#000000' }}
+                      >
+                        {item.type}
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1">
+                      {item.category && (
+                        <div 
+                          className="text-sm font-medium mb-2"
+                          style={{ color: '#2c5530' }}
+                        >
+                          {item.category}
+                        </div>
+                      )}
+                      {item.title && (
+                        <h3 
+                          className="text-lg font-semibold mb-2"
+                          style={{ color: '#000000' }}
+                        >
+                          {item.title}
+                        </h3>
+                      )}
+                      {item.speaker && (
+                        <div className="mb-2">
+                          <span 
+                            className="text-sm font-medium"
+                            style={{ color: '#000000' }}
+                          >
+                            Speaker: 
+                          </span>
+                          <span 
+                            className="text-sm ml-1"
+                            style={{ color: '#000000' }}
+                          >
+                            {item.speaker}
+                          </span>
+                          {item.location && (
+                            <span 
+                              className="text-sm ml-2"
+                              style={{ color: '#000000' }}
+                            >
+                              ({item.location})
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      {item.description && (
+                        <p 
+                          className="text-sm leading-relaxed"
+                          style={{ color: '#000000' }}
+                        >
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+
+          {/* Combined View */}
+          {activeDay === 'combined' && (
+            <div className="space-y-8">
+              {/* Day 1 */}
+              <div>
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold mb-2" style={{ color: '#000000' }}>
+                    {getDayTitle('day1')}
+                  </h3>
+                </div>
+                <div className="space-y-4">
+                  {getEventsByDay('day1').map((item, index) => (
+                    <motion.div
+                      key={`day1-${index}`}
+                      className="rounded-lg p-6"
+                      style={{ 
+                        backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                        borderColor: 'rgba(0, 0, 0, 0.2)',
+                        border: '1px solid'
+                      }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                      whileHover={{ 
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        transition: { duration: 0.2 }
+                      }}
+                    >
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                        <div className="flex-shrink-0">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div 
+                              className="px-3 py-1 rounded-full text-sm font-semibold"
+                              style={{ 
+                                backgroundColor: '#2c5530', 
+                                color: '#ffffff' 
+                              }}
+                            >
+                              {item.time_slot}
+                            </div>
+                            <div 
+                              className="px-3 py-1 rounded-full text-sm"
+                              style={{ 
+                                backgroundColor: 'rgba(0, 0, 0, 0.2)', 
+                                color: '#000000' 
+                              }}
+                            >
+                              {item.duration}
+                            </div>
+                          </div>
+                          <div 
+                            className="text-lg font-bold"
+                            style={{ color: '#000000' }}
+                          >
+                            {item.type}
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          {item.category && (
+                            <div 
+                              className="text-sm font-medium mb-2"
+                              style={{ color: '#2c5530' }}
+                            >
+                              {item.category}
+                            </div>
+                          )}
+                          {item.title && (
+                            <h3 
+                              className="text-lg font-semibold mb-2"
+                              style={{ color: '#000000' }}
+                            >
+                              {item.title}
+                            </h3>
+                          )}
+                          {item.speaker && (
+                            <div className="mb-2">
+                              <span 
+                                className="text-sm font-medium"
+                                style={{ color: '#000000' }}
+                              >
+                                Speaker: 
+                              </span>
+                              <span 
+                                className="text-sm ml-1"
+                                style={{ color: '#000000' }}
+                              >
+                                {item.speaker}
+                              </span>
+                              {item.location && (
+                                <span 
+                                  className="text-sm ml-2"
+                                  style={{ color: '#000000' }}
+                                >
+                                  ({item.location})
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          {item.description && (
+                            <p 
+                              className="text-sm leading-relaxed"
+                              style={{ color: '#000000' }}
+                            >
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Day 2 */}
+              <div>
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold mb-2" style={{ color: '#000000' }}>
+                    {getDayTitle('day2')}
+                  </h3>
+                </div>
+                <div className="space-y-4">
+                  {getEventsByDay('day2').map((item, index) => (
+                    <motion.div
+                      key={`day2-${index}`}
+                      className="rounded-lg p-6"
+                      style={{ 
+                        backgroundColor: 'rgba(255, 255, 255, 0.8)', 
+                        borderColor: 'rgba(0, 0, 0, 0.2)',
+                        border: '1px solid'
+                      }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                      whileHover={{ 
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        transition: { duration: 0.2 }
+                      }}
+                    >
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                        <div className="flex-shrink-0">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div 
+                              className="px-3 py-1 rounded-full text-sm font-semibold"
+                              style={{ 
+                                backgroundColor: '#2c5530', 
+                                color: '#ffffff' 
+                              }}
+                            >
+                              {item.time_slot}
+                            </div>
+                            <div 
+                              className="px-3 py-1 rounded-full text-sm"
+                              style={{ 
+                                backgroundColor: 'rgba(0, 0, 0, 0.2)', 
+                                color: '#000000' 
+                              }}
+                            >
+                              {item.duration}
+                            </div>
+                          </div>
+                          <div 
+                            className="text-lg font-bold"
+                            style={{ color: '#000000' }}
+                          >
+                            {item.type}
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          {item.category && (
+                            <div 
+                              className="text-sm font-medium mb-2"
+                              style={{ color: '#2c5530' }}
+                            >
+                              {item.category}
+                            </div>
+                          )}
+                          {item.title && (
+                            <h3 
+                              className="text-lg font-semibold mb-2"
+                              style={{ color: '#000000' }}
+                            >
+                              {item.title}
+                            </h3>
+                          )}
+                          {item.speaker && (
+                            <div className="mb-2">
+                              <span 
+                                className="text-sm font-medium"
+                                style={{ color: '#000000' }}
+                              >
+                                Speaker: 
+                              </span>
+                              <span 
+                                className="text-sm ml-1"
+                                style={{ color: '#000000' }}
+                              >
+                                {item.speaker}
+                              </span>
+                              {item.location && (
+                                <span 
+                                  className="text-sm ml-2"
+                                  style={{ color: '#000000' }}
+                                >
+                                  ({item.location})
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          {item.description && (
+                            <p 
+                              className="text-sm leading-relaxed"
+                              style={{ color: '#000000' }}
+                            >
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </motion.div>
 
@@ -138,7 +873,7 @@ export default function Announcements() {
               }}
               className="group"
             >
-              <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
+              <div className="rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderColor: 'rgba(0, 0, 0, 0.2)' }}>
                 {/* Card Header with Image */}
                 <div className="relative h-48 overflow-hidden">
                   <img 
@@ -149,16 +884,17 @@ export default function Announcements() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute top-4 right-4">
                     <motion.div
-                      className="w-3 h-3 bg-green-400 rounded-full"
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: '#000000' }}
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
                   </div>
                   <div className="absolute bottom-4 left-4 right-4">
-                    <span className="text-blue-100 text-sm font-medium">
+                    <span className="text-sm font-medium" style={{ color: '#000000' }}>
                       {formatDate(announcement.created_at)}
                     </span>
-                    <h3 className="text-white text-xl font-bold group-hover:text-blue-100 transition-colors duration-200 mt-1">
+                    <h3 className="text-xl font-bold transition-colors duration-200 mt-1" style={{ color: '#000000' }}>
                       {announcement.title}
                     </h3>
                   </div>
@@ -166,13 +902,17 @@ export default function Announcements() {
 
                 {/* Card Content */}
                 <div className="p-6">
-                  <p className="text-gray-600 leading-relaxed mb-4">
+                  <p className="leading-relaxed mb-4" style={{ color: '#000000' }}>
                     {announcement.description}
                   </p>
                   
                   {/* Action Button */}
                   <motion.button
-                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-4 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105"
+                    className="w-full font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105"
+                    style={{ 
+                      backgroundColor: '#2c5530', 
+                      color: '#ffffff' 
+                    }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -182,7 +922,7 @@ export default function Announcements() {
 
                 {/* Decorative Elements */}
                 <div className="absolute top-4 right-4 opacity-10">
-                  <svg className="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-8 h-8" style={{ color: '#000000' }} fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                   </svg>
                 </div>
@@ -199,14 +939,14 @@ export default function Announcements() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+              <svg className="w-12 h-12" style={{ color: '#000000' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold text-gray-700 mb-4">No Announcements Yet</h3>
-            <p className="text-gray-500 max-w-md mx-auto">
-              Check back soon for the latest conference updates and workshop announcements.
+            <h3 className="text-2xl font-bold mb-4" style={{ color: '#000000' }}>No Announcements Yet</h3>
+            <p className="max-w-md mx-auto" style={{ color: '#000000' }}>
+              Check back soon for the latest HEADS project updates and research milestones.
             </p>
           </motion.div>
         )}

@@ -8,12 +8,18 @@ export default function BlogDetail() {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [relatedBlogs, setRelatedBlogs] = useState([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        // For demo purposes, we'll use mock data
-        // In a real app, you'd fetch: const response = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+        // Fetch blog from API
+        const response = await axios.get(`http://localhost:3001/api/blogs/${id}`);
+        setBlog(response.data);
         
         const mockBlogs = [
           {
@@ -198,16 +204,65 @@ The future of data communication is bright, with unprecedented opportunities for
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50 flex items-center justify-center">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">Loading blog post...</p>
-        </motion.div>
+      <div className="min-h-screen overflow-hidden" style={{ backgroundColor: '#f5f5dc' }}>
+        {/* Header */}
+        <header className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: '#f5f5dc' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-4">
+              {/* Logo */}
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </div>
+                <h1 className="text-2xl font-bold" style={{ color: '#000000' }}>HEADS Project</h1>
+              </div>
+              
+              {/* Navigation Links */}
+              <nav className="hidden md:flex space-x-8">
+                <Link to="/" className="hover:text-gray-300 transition-colors font-medium" style={{ color: '#000000' }}>Home</Link>
+                <Link to="/announcements" className="hover:text-gray-300 transition-colors font-medium" style={{ color: '#000000' }}>Announcements</Link>
+                <Link to="/blog" className="hover:text-gray-300 transition-colors font-medium" style={{ color: '#000000' }}>Blog</Link>
+              </nav>
+              
+              {/* Contact Us Button */}
+              <div className="hidden md:block">
+                <Link
+                  to="/contact"
+                  className="px-6 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                  style={{ 
+                    backgroundColor: '#2c5530', 
+                    color: '#ffffff' 
+                  }}
+                >
+                  Contact Us
+                </Link>
+              </div>
+              
+              {/* Mobile Menu Button */}
+              <div className="md:hidden">
+                <button className="hover:text-gray-300 transition-colors" style={{ color: '#000000' }}>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="min-h-screen flex items-center justify-center pt-20">
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="w-16 h-16 border-4 border-transparent border-t-current rounded-full animate-spin mx-auto mb-4" style={{ borderTopColor: '#000000' }}></div>
+            <p className="text-lg" style={{ color: '#000000' }}>Loading blog post...</p>
+          </motion.div>
+        </div>
       </div>
     );
   }
@@ -230,10 +285,118 @@ The future of data communication is bright, with unprecedented opportunities for
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50">
+    <div className="min-h-screen overflow-hidden" style={{ backgroundColor: '#f5f5dc' }}>
       {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: '#f5f5dc' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            {/* Logo */}
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <h1 className="text-2xl font-bold" style={{ color: '#000000' }}>HEADS Project</h1>
+            </div>
+            
+            {/* Navigation Links */}
+            <nav className="hidden md:flex space-x-8">
+              <Link to="/" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Home</Link>
+              <Link to="/announcements" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Announcements</Link>
+              <Link to="/blog" className="hover:text-gray-600 transition-colors font-medium" style={{ color: '#000000' }}>Blog</Link>
+            </nav>
+            
+            {/* Contact Us Button */}
+            <div className="hidden md:block">
+              <Link
+                to="/contact"
+                className="px-6 py-2 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                style={{ 
+                  backgroundColor: '#2c5530', 
+                  color: '#ffffff' 
+                }}
+              >
+                Contact Us
+              </Link>
+            </div>
+            
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button 
+                onClick={toggleMobileMenu}
+                className="hover:text-gray-600 transition-colors" 
+                style={{ color: '#000000' }}
+              >
+                {isMobileMenuOpen ? (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                ) : (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <motion.div
+            className="md:hidden border-t"
+            style={{ borderColor: 'rgba(0, 0, 0, 0.2)' }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="py-4 space-y-4">
+              <Link 
+                to="/" 
+                className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                style={{ color: '#000000' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/announcements" 
+                className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                style={{ color: '#000000' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Announcements
+              </Link>
+              <Link 
+                to="/blog" 
+                className="block px-4 py-2 hover:bg-opacity-10 transition-colors"
+                style={{ color: '#000000' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Blog
+              </Link>
+              <Link 
+                to="/contact" 
+                className="block px-4 py-2 rounded-lg mx-4 mt-4 text-center font-semibold"
+                style={{ 
+                  backgroundColor: '#2c5530', 
+                  color: '#ffffff' 
+                }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact Us
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </header>
+
+      {/* Header Section */}
       <motion.div
-        className="bg-gradient-to-r from-purple-600 via-blue-600 to-purple-800 text-white py-16"
+        className="py-16 pt-32"
+        style={{ backgroundColor: '#f5f5dc' }}
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -247,14 +410,20 @@ The future of data communication is bright, with unprecedented opportunities for
           >
             <Link
               to="/blog"
-              className="text-purple-200 hover:text-white transition-colors duration-200"
+              className="transition-colors duration-200"
+              style={{ color: '#000000' }}
             >
               ← Back to Blog
             </Link>
           </motion.div>
           
           <motion.div
-            className="inline-block bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-full text-sm font-medium mb-6"
+            className="inline-block backdrop-blur-sm border px-4 py-2 rounded-full text-sm font-medium mb-6"
+            style={{ 
+              backgroundColor: 'rgba(0, 0, 0, 0.2)', 
+              borderColor: 'rgba(0, 0, 0, 0.3)', 
+              color: '#000000' 
+            }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.6 }}
@@ -264,6 +433,7 @@ The future of data communication is bright, with unprecedented opportunities for
 
           <motion.h1
             className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
+            style={{ color: '#000000' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
@@ -272,7 +442,8 @@ The future of data communication is bright, with unprecedented opportunities for
           </motion.h1>
 
           <motion.div
-            className="flex flex-wrap items-center gap-6 text-purple-100"
+            className="flex flex-wrap items-center gap-6"
+            style={{ color: '#000000' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
@@ -296,7 +467,8 @@ The future of data communication is bright, with unprecedented opportunities for
           {/* Article Content */}
           <div className="lg:col-span-2">
             <motion.article
-              className="bg-white rounded-2xl shadow-lg overflow-hidden"
+              className="rounded-2xl shadow-lg overflow-hidden"
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderColor: 'rgba(0, 0, 0, 0.2)' }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
@@ -313,13 +485,14 @@ The future of data communication is bright, with unprecedented opportunities for
 
               {/* Article Body */}
               <div className="p-8 sm:p-12">
-                <div className="prose prose-lg max-w-none">
+                <div className="prose prose-lg max-w-none" style={{ color: '#000000' }}>
                   {blog.content.split('\n\n').map((paragraph, index) => {
                     if (paragraph.startsWith('## ')) {
                       return (
                         <motion.h2
                           key={index}
-                          className="text-2xl font-bold text-gray-800 mt-8 mb-4"
+                          className="text-2xl font-bold mt-8 mb-4"
+                          style={{ color: '#000000' }}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
@@ -331,7 +504,7 @@ The future of data communication is bright, with unprecedented opportunities for
                       return (
                         <motion.h3
                           key={index}
-                          className="text-xl font-semibold text-gray-700 mt-6 mb-3"
+                          className="text-xl font-semibold mt-6 mb-3"
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
@@ -357,7 +530,8 @@ The future of data communication is bright, with unprecedented opportunities for
                       return (
                         <motion.p
                           key={index}
-                          className="text-gray-600 leading-relaxed mb-6"
+                          className="leading-relaxed mb-6"
+                          style={{ color: '#000000' }}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
@@ -419,12 +593,13 @@ The future of data communication is bright, with unprecedented opportunities for
           <div className="lg:col-span-1">
             {/* Related Articles */}
             <motion.div
-              className="bg-white rounded-2xl shadow-lg p-6 mb-8"
+              className="rounded-2xl shadow-lg p-6 mb-8"
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderColor: 'rgba(0, 0, 0, 0.2)' }}
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              <h3 className="text-xl font-bold text-gray-800 mb-6">Related Articles</h3>
+              <h3 className="text-xl font-bold mb-6" style={{ color: '#000000' }}>Related Articles</h3>
               <div className="space-y-6">
                 {relatedBlogs.map((relatedBlog, index) => (
                   <motion.div
@@ -444,10 +619,10 @@ The future of data communication is bright, with unprecedented opportunities for
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                       </div>
-                      <h4 className="font-semibold text-gray-800 group-hover:text-purple-600 transition-colors duration-200 mb-2">
+                      <h4 className="font-semibold transition-colors duration-200 mb-2" style={{ color: '#000000' }}>
                         {relatedBlog.title}
                       </h4>
-                      <p className="text-sm text-gray-500">{formatDate(relatedBlog.created_at)}</p>
+                      <p className="text-sm" style={{ color: '#000000' }}>{formatDate(relatedBlog.created_at)}</p>
                     </Link>
                   </motion.div>
                 ))}
@@ -456,13 +631,14 @@ The future of data communication is bright, with unprecedented opportunities for
 
             {/* Newsletter Signup */}
             <motion.div
-              className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-6 text-white"
+              className="rounded-2xl p-6 border"
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderColor: 'rgba(0, 0, 0, 0.2)' }}
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <h3 className="text-xl font-bold mb-4">Stay Updated</h3>
-              <p className="text-purple-100 mb-6">
+              <h3 className="text-xl font-bold mb-4" style={{ color: '#000000' }}>Stay Updated</h3>
+              <p className="mb-6" style={{ color: '#000000' }}>
                 Get the latest conference updates and blog posts delivered to your inbox.
               </p>
               <div className="space-y-3">
@@ -472,7 +648,11 @@ The future of data communication is bright, with unprecedented opportunities for
                   className="w-full px-4 py-3 rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
                 />
                 <motion.button
-                  className="w-full bg-white text-purple-600 font-semibold py-3 rounded-lg hover:bg-purple-50 transition-colors duration-200"
+                  className="w-full font-semibold py-3 rounded-lg transition-colors duration-200"
+                  style={{ 
+                    backgroundColor: '#2c5530', 
+                    color: '#ffffff' 
+                  }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

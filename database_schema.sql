@@ -14,16 +14,18 @@ CREATE TABLE blogs (
 
 CREATE TABLE announcements (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255),
-  description TEXT,
+  title VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  image VARCHAR(500),
+  category VARCHAR(50) DEFAULT 'General',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Insert some sample data
-INSERT INTO announcements (title, description) VALUES 
-('Workshop Registration Open', 'Registration for our hands-on workshops is now open. Limited seats available!'),
-('Keynote Speaker Announcement', 'We are excited to announce Dr. Sarah Johnson as our keynote speaker for DCNet 2025.'),
-('Call for Papers Extended', 'The deadline for paper submissions has been extended to March 15th, 2025.');
+INSERT INTO announcements (title, description, image, category) VALUES 
+('Workshop Registration Open', 'Registration for our hands-on workshops is now open. Limited seats available!', 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=250&fit=crop&crop=center', 'Workshop'),
+('Keynote Speaker Announcement', 'We are excited to announce Dr. Sarah Johnson as our keynote speaker for DCNet 2025.', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop&crop=center', 'Speaker'),
+('Call for Papers Extended', 'The deadline for paper submissions has been extended to March 15th, 2025.', 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop&crop=center', 'General');
 
 INSERT INTO blogs (title, content) VALUES 
 ('Welcome to DCNet 2025', 'We are thrilled to welcome you to the premier conference on Data Communication and Networking. This year promises to be our biggest event yet with cutting-edge research presentations, hands-on workshops, and networking opportunities.'),
