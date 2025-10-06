@@ -57,7 +57,7 @@ export const speakersData = [
   {
     speaker: " Dr Sunayana Sitaram",
     speaker_title: "Multilingual NLP & Responsible AI Leader",
-    speaker_affiliation: "NIMHANS, Bengaluru",
+    // speaker_affiliation: "NIMHANS, Bengaluru",
     speaker_bio: "Dr Sunayana Sitaram is a Principal Researcher at Microsoft Research India and Director of the MSR India Research Fellow Program. Her research focuses on multilingual and multicultural natural language processing, responsible AI evaluation, and cultural inclusivity in large language models. She has developed comprehensive datasets and evaluation frameworks for Indian languages, including Updesh (13 Indian languages) and Pariksha, making significant contributions to accessible and fair AI systems for diverse linguistic populations across India.",
 
     speaker_photo: "/speakers/prabha-chandra.jpg", // Local photo path
@@ -68,7 +68,7 @@ export const speakersData = [
   {
     speaker: "Dr. Aseem Srivastava",
     speaker_title: "Assistant Professor",
-    speaker_affiliation: "NIMHANS, Bengaluru",
+    // speaker_affiliation: "NIMHANS, Bengaluru",
     speaker_bio: "Aseem Srivastava is a Postdoctoral Researcher at MBZUAI, UAE.His research spans applied computational social science, psycholinguistics, and sociolinguistics, with a focus on digital mental health applications, conversational AI systems, and cultural dynamics in LLMs. He has published in premier venues including EMNLP, WWW, KDD, and ICWSM, with notable work on counseling dialogue generation, mental health knowledge frameworks, and AI-driven therapeutic applications.",
     speaker_photo: "/speakers/sachin-baliga.jpg", // Local photo path
     speaker_google_scholar: "https://scholar.google.com/citations?user=kgykojoAAAAJ&hl=en",
@@ -78,7 +78,7 @@ export const speakersData = [
   {
     speaker: "Mr Vamshi Krishna Bonagiri",
     speaker_title: "Professor of Psychiatry",
-    speaker_affiliation: "NIMHANS, Bengaluru",
+    // speaker_affiliation: "NIMHANS, Bengaluru",
     speaker_bio: "Vamshi Krishna Bonagiri is a PhD student in Machine Learning at the Mohamed bin Zayed University of Artificial Intelligence (MBZUAI), Abu Dhabi. He recently interned at the Center for Human-Compatible AI (CHAI), UC Berkeley. His research focuses on AI Safety, particularly robustness, interpretability, and AI evaluations, with an aim to make AI systems reliable and socially impactful. He has published in venues such as ACM TALLIP and is actively engaged in collaborations at the intersection of AI and society.",
     speaker_photo: "/speakers/sanjeev-jain.jpg", // Local photo path
     speaker_google_scholar: "https://scholar.google.com/citations?user=U6p6540AAAAJ&hl=en",

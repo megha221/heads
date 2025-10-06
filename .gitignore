@@ -66,7 +66,12 @@ jspm_packages/
 
 # Gatsby files
 .cache/
-public
+# public  # Commented out to allow speaker photos in public/speakers/
+
+# Allow speaker photos but ignore other public build files
+public/*
+!public/speakers/
+!public/speakers/**
 
 # Storybook build outputs
 .out
