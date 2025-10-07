@@ -1,7 +1,7 @@
 -- Add speaker bio fields to events table
 -- This will support detailed speaker information for 10-14 speakers
 
-USE conference_db;
+USE heads_db;
 
 -- Add new columns for speaker information
 ALTER TABLE events 

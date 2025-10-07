@@ -1,7 +1,7 @@
 -- Test script to verify social links functionality
 -- Run this after applying the migration
 
-USE conference_db;
+USE heads_db;
 
 -- Check if the new columns exist
 DESCRIBE announcements;

@@ -1,7 +1,7 @@
 -- Complete setup script for the speakers system
 -- This script adds speaker bio fields and populates sample data
 
-USE conference_db;
+USE heads_db;
 
 -- Step 1: Add speaker bio fields to events table
 ALTER TABLE events 

@@ -8,7 +8,7 @@ const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '',
-  database: process.env.DB_NAME || 'conference_db'
+  database: process.env.DB_NAME || 'heads_db'
 };
 
 // Create LEE registration

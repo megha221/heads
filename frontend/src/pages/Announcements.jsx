@@ -1205,7 +1205,7 @@ export default function Announcements() {
       </motion.div>
 
       {/* Speakers Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -1237,7 +1237,7 @@ export default function Announcements() {
               className="group"
             >
               <div className="rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden" style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', borderColor: 'rgba(0, 0, 0, 0.2)' }}>
-                {/* Speaker Photo */}
+              
                 <div className="relative h-64 overflow-hidden">
                   <img 
                     src={speaker.speaker_photo || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=300&fit=crop&crop=face"} 
@@ -1262,7 +1262,7 @@ export default function Announcements() {
                   </div>
                 </div>
 
-                {/* Speaker Bio */}
+         
                 <div className="p-6">
                   {speaker.speaker_bio && (
                     <p className="text-sm leading-relaxed mb-4" style={{ color: '#000000' }}>
@@ -1270,7 +1270,7 @@ export default function Announcements() {
                     </p>
                   )}
                   
-                  {/* Social Links */}
+                  
                   {(speaker.speaker_google_scholar || speaker.speaker_linkedin || speaker.speaker_twitter || speaker.speaker_website) && (
                     <div className="mb-4">
                       <h4 className="text-xs font-semibold mb-2" style={{ color: '#000000' }}>Connect:</h4>
@@ -1360,7 +1360,7 @@ export default function Announcements() {
           ))}
         </motion.div>
 
-        {/* Empty State */}
+        
         {speakers.length === 0 && (
           <motion.div
             className="text-center py-16"
@@ -1379,7 +1379,7 @@ export default function Announcements() {
             </p>
           </motion.div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

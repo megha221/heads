@@ -2,8 +2,8 @@
 -- Run this in your MySQL database to create the required table
 
 -- Create database if it doesn't exist
-CREATE DATABASE IF NOT EXISTS conference_db;
-USE conference_db;
+CREATE DATABASE IF NOT EXISTS heads_db;
+USE heads_db;
 
 -- Create LEE registrations table
 CREATE TABLE IF NOT EXISTS lee_registrations (

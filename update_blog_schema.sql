@@ -1,5 +1,5 @@
 -- Update the blogs table to support user submissions and approval workflow
-USE conference_db;
+USE heads_db;
 
 -- Add new columns to the blogs table
 ALTER TABLE blogs 

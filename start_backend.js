@@ -19,7 +19,7 @@ const server = spawn('node', ['server.js'], {
     DB_HOST: 'localhost',
     DB_USER: 'root',
     DB_PASS: '',
-    DB_NAME: 'conference_db'
+    DB_NAME: 'heads_db'
   }
 });
 

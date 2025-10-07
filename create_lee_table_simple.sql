@@ -1,7 +1,7 @@
 -- Create LEE registrations table in the existing database
 -- Run this in your MySQL client (phpMyAdmin, MySQL Workbench, or command line)
 
-USE conference_db;
+USE heads_db;
 
 CREATE TABLE IF NOT EXISTS lee_registrations (
     id INT AUTO_INCREMENT PRIMARY KEY,

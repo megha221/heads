@@ -314,7 +314,7 @@ export default function Home() {
 
 
         {/* Scroll Indicator */}
-        <motion.div
+        {/* <motion.div
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -333,7 +333,7 @@ export default function Home() {
               transition={{ duration: 2, repeat: Infinity }}
             />
           </motion.div>
-        </motion.div>
+        </motion.div> */}
 
         {/* Made in Framer Style Badge */}
         {/* <motion.div
@@ -421,18 +421,18 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: "Multilingual AI Support",
-                description: "Accessible, culturally and linguistically sensitive mental health tools - assisting healthcare workers identify depression.",
+                title: "Breaking Language Barriers in Mental Health",
+                description: "Developing a culturally and linguistically sensitive AI tool to help healthcare professionals identify depression across diverse communities.",
                 
               },
               {
-                title: "Research Collaboration",
-                description: "Intersection of medicine and computer science. Working towards pragmatic, clinically relevant AI solutions in mental health.",
+                title: "Bridging Computer Science and Clinical Practice",
+                description: "Uniting experts in medicine and computer science to pioneer pragmatic, clinically-relevant AI solutions for real-world mental healthcare.",
                
               },
               {
-                title: "Lived Experience Integration",
-                description: "Embedding personal experience of mental health challenges, ensuring effective , ethical AI technologies grounded in real world needs.",
+                title: "Solutions Shaped by Lived Experience",
+                description: "By collaborating directly with Lived Experience Experts, we ensure our technology is effective, ethical, and grounded in real-world human needs.",
           
               }
             ].map((service, index) => (
@@ -523,8 +523,8 @@ export default function Home() {
                 <p className="leading-relaxed" style={{ color: '#000000' }}>
                   Lived Experience Experts are individuals who have personally experienced depression 
                   or other mental health difficulties. Your personal experience provides insights that 
-                  books and machines cannot capture. You don't need professional training - what matters 
-                  most is your willingness, openness, and interest in helping others.
+                  books and machines cannot capture.                   <strong>You don't need professional training - what matters 
+                  most is your willingness, openness, and interest in helping others.</strong>
                 </p>
               </div>
 

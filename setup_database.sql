@@ -6,8 +6,8 @@
 -- Enter password: rootuser
 
 -- Create database
-CREATE DATABASE IF NOT EXISTS conference_db;
-USE conference_db;
+CREATE DATABASE IF NOT EXISTS heads_db;
+USE heads_db;
 
 -- Drop existing tables if they exist (for clean setup)
 DROP TABLE IF EXISTS announcements;

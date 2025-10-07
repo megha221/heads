@@ -1,8 +1,8 @@
 -- Create database and table for LEE registrations
 -- Run this in MySQL: mysql -u root -p < create_lee_table.sql
 
-CREATE DATABASE IF NOT EXISTS conference_db;
-USE conference_db;
+CREATE DATABASE IF NOT EXISTS heads_db;
+USE heads_db;
 
 CREATE TABLE IF NOT EXISTS lee_registrations (
     id INT AUTO_INCREMENT PRIMARY KEY,

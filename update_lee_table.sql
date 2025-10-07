@@ -1,7 +1,7 @@
 -- Update LEE registrations table to include new fields
 -- Run this in your MySQL client to add the new columns
 
-USE conference_db;
+USE heads_db;
 
 -- Add new columns to the existing table
 ALTER TABLE lee_registrations 

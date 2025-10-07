@@ -1,9 +1,9 @@
 -- MySQL Database Schema for Conference Website
 -- Run these commands in your MySQL client
 
-CREATE DATABASE conference_db;
+CREATE DATABASE heads_db;
 
-USE conference_db;
+USE heads_db;
 
 CREATE TABLE blogs (
   id INT AUTO_INCREMENT PRIMARY KEY,

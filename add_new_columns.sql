@@ -1,7 +1,7 @@
 -- Add new columns to existing lee_registrations table
 -- Run this in your MySQL client (phpMyAdmin, MySQL Workbench, or command line)
 
-USE conference_db;
+USE heads_db;
 
 -- Add the new columns
 ALTER TABLE lee_registrations 

@@ -1,7 +1,7 @@
 -- Add social media links to announcements table
 -- Run this script to add Google Scholar, LinkedIn, and YouTube fields
 
-USE conference_db;
+USE heads_db;
 
 -- Add new columns for social media links
 ALTER TABLE announcements 

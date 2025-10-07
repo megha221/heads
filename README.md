@@ -79,7 +79,7 @@ Create a `.env` file in the backend directory:
 DB_HOST=localhost
 DB_USER=root
 DB_PASS=yourpassword
-DB_NAME=conference_db
+DB_NAME=heads_db
 PORT=5000
 ```
 
